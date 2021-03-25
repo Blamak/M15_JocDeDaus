@@ -1,4 +1,4 @@
-package ITAcademy.M15_JocDeDaus;
+package com.ITAcademy.M15_JocDeDaus;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
