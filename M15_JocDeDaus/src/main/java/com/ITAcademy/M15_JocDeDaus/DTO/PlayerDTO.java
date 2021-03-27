@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PlayerDTO {
 	
-	private Long player_id;
+	private long player_id;
 	private String name;
 	
 	//  create a “current time” JDBC Timestamp
@@ -20,7 +20,7 @@ public class PlayerDTO {
 		return player_id;
 	}
 	
-	public void setPlayer_id(Long player_id) {
+	public void setPlayer_id(long player_id) {
 		this.player_id = player_id;
 	}
 	

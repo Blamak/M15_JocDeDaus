@@ -18,7 +18,7 @@ public class Player {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long player_id;
+	private long player_id;
 	@Column
 	private String name;
 	@Column(name = "date")
@@ -34,7 +34,7 @@ public class Player {
 		return player_id;
 	}
 
-	public void setPlayer_id(Long player_id) {
+	public void setPlayer_id(long player_id) {
 		this.player_id = player_id;
 	}
 

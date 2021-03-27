@@ -16,11 +16,11 @@ public class Game {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long game_id;
+	private long game_id;
 	@Column
-	private Integer dice1;
+	private int dice1;
 	@Column
-	private Integer dice2;
+	private int dice2;
 	@Column
 	private String result;
 	
@@ -31,7 +31,7 @@ public class Game {
 
 	// getters & setters:
 	
-	public Long getGame_id() {
+	public long getGame_id() {
 		return game_id;
 	}
 
@@ -39,7 +39,7 @@ public class Game {
 		this.game_id = game_id;
 	}
 
-	public Integer getDice1() {
+	public int getDice1() {
 		return dice1;
 	}
 
@@ -47,7 +47,7 @@ public class Game {
 		this.dice1 = dice1;
 	}
 
-	public Integer getDice2() {
+	public int getDice2() {
 		return dice2;
 	}
 

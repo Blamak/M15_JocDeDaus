@@ -2,10 +2,9 @@ package com.ITAcademy.M15_JocDeDaus.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
@@ -18,21 +17,21 @@ public class PlayerImplService implements IPlayerService {
 	@Autowired
 	PlayerRepository playerRepository;
 
+	// POST:/players
 	@Override
-	public ResponseEntity<PlayerDTO> savePlayer(PlayerDTO playerDTO) {
-
+	public PlayerDTO savePlayer(PlayerDTO playerDTO) {
 		Player player = this.mapDtotoEntity(playerDTO);
-		player = playerRepository.save(player);
-
-		return new ResponseEntity<PlayerDTO>(playerDTO, HttpStatus.CREATED);
+		playerRepository.save(player);
+		return this.mapEntitytoDTO(player);
+		
 	}
 
+	// GET:/players
 	@Override
 	public List<PlayerDTO> getAllPlayers() {
-
 		List<PlayerDTO> result = null;
-
 		List<Player> players = playerRepository.findAll();
+		
 		if (players != null && players.size() > 0) {
 			result = new ArrayList<PlayerDTO>();
 			for (Player player : players) {
@@ -42,7 +41,34 @@ public class PlayerImplService implements IPlayerService {
 
 		return result;
 	}
+	
+	// PUT:/players
+	@Override
+	public PlayerDTO replacePlayerName(PlayerDTO playerDTO) {
+		Player player = this.mapDtotoEntity(playerDTO);
+		playerRepository.save(player);
+		return this.mapEntitytoDTO(player);
+	}
 
+	@Override
+	public PlayerDTO getPlayerByID(long player_id) {
+		Optional<Player> player = playerRepository.findById(player_id);
+		if (player.isPresent()) {
+			return this.mapEntitytoDTO(player.get());
+			
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public boolean checkPlayerExists(long player_id) {
+		if(playerRepository.existsById(player_id)) {
+			return true;
+		}
+		return false;
+	}
+	
 	// DTO-entity conversion
 	private Player mapDtotoEntity(PlayerDTO dto) {
 
@@ -69,4 +95,6 @@ public class PlayerImplService implements IPlayerService {
 
 		return dto;
 	}
+
+
 }
