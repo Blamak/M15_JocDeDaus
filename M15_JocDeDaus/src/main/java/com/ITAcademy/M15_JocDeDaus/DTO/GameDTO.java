@@ -1,5 +1,10 @@
 package com.ITAcademy.M15_JocDeDaus.DTO;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.ITAcademy.M15_JocDeDaus.Entities.Game;
+
 public class GameDTO {
 
 	private long game_id;
@@ -11,6 +16,7 @@ public class GameDTO {
 	
 	// getters & setters:
 	
+
 	public Long getGame_id() {
 		return game_id;
 	}
@@ -27,7 +33,7 @@ public class GameDTO {
 		this.dice1 = dice1;
 	}
 
-	public int getDice2() {
+	public Integer getDice2() {
 		return dice2;
 	}
 

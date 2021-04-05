@@ -1,7 +1,9 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,13 +23,9 @@ public class Player {
 	private long player_id;
 	@Column
 	private String name;
-	@Column(name = "date")
-	private Timestamp currentTime;
+	@Column
+	private Timestamp date;
 	
-	@OneToMany(mappedBy = "player")
-	private List<Game> games;
-
-
 	// getters & setters:
 	
 	public Long getPlayer_id() {
@@ -46,20 +44,12 @@ public class Player {
 		this.name = name;
 	}
 
-	public Timestamp getCurrentTime() {
-		return currentTime;
+	public Timestamp getDate() {
+		return date;
 	}
 
-	public void setCurrentTime(Timestamp currentTime) {
-		this.currentTime = currentTime;
-	}
-
-	public List<Game> getGames() {
-		return games;
-	}
-
-	public void setGames(List<Game> games) {
-		this.games = games;
+	public void setDate(Timestamp date) {
+		this.date = date;
 	}
 
 }

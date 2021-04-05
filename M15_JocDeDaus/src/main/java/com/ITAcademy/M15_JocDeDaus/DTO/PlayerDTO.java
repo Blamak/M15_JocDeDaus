@@ -2,6 +2,9 @@ package com.ITAcademy.M15_JocDeDaus.DTO;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
+
+import com.ITAcademy.M15_JocDeDaus.Entities.Game;
 
 public class PlayerDTO {
 	
@@ -9,9 +12,8 @@ public class PlayerDTO {
 	private String name;
 	
 	//  create a “current time” JDBC Timestamp
-	private Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-	
-	private List<GameDTO> games;
+	private Timestamp date = new Timestamp(System.currentTimeMillis());
+//	private List<Game> games;
 	
 	
 	// getters & setters:
@@ -32,20 +34,24 @@ public class PlayerDTO {
 		this.name = name;
 	}
 	
-	public Timestamp getCurrentTime() {
-		return currentTime;
+	public Timestamp getDate() {
+		return date;
 	}
 	
-	public void setCurrentTime(Timestamp currentTime) {
-		this.currentTime = currentTime;
-	}
-	
-	public List<GameDTO> getGames() {
-		return games;
-	}
-	
-	public void setGames(List<GameDTO> games) {
-		this.games = games;
+	public void setDate(Timestamp date) {
+		this.date = date;
 	}
 
+//	public List<Game> getGames() {
+//		return games;
+//	}
+//
+//	public void setGames(List<Game> games) {
+//		this.games = games;
+//	}
+//	
+//	public void addGame(Game game ) {
+//		this.games.add(game);
+//	}
+//	
 }

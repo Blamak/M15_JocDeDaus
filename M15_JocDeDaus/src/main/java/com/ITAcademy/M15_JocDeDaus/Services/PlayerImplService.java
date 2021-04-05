@@ -9,24 +9,27 @@ import org.springframework.stereotype.Service;
 
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
-import com.ITAcademy.M15_JocDeDaus.Repositories.PlayerRepository;
+import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 
 @Service
 public class PlayerImplService implements IPlayerService {
 
 	@Autowired
-	PlayerRepository playerRepository;
+	IPlayerRepository playerRepository;
 
-	// POST:/players
+	/*
+	 *  POST:/players
+	 */
 	@Override
 	public PlayerDTO savePlayer(PlayerDTO playerDTO) {
 		Player player = this.mapDtotoEntity(playerDTO);
 		playerRepository.save(player);
 		return this.mapEntitytoDTO(player);
-		
 	}
 
-	// GET:/players
+	/*
+	 *  GET:/players
+	 */
 	@Override
 	public List<PlayerDTO> getAllPlayers() {
 		List<PlayerDTO> result = null;
@@ -42,7 +45,9 @@ public class PlayerImplService implements IPlayerService {
 		return result;
 	}
 	
-	// PUT:/players
+	/*
+	 * PUT:/players
+	 */
 	@Override
 	public PlayerDTO replacePlayerName(PlayerDTO playerDTO) {
 		Player player = this.mapDtotoEntity(playerDTO);
@@ -70,8 +75,8 @@ public class PlayerImplService implements IPlayerService {
 	}
 	
 	// DTO-entity conversion
-	private Player mapDtotoEntity(PlayerDTO dto) {
-
+	@Override
+	public Player mapDtotoEntity(PlayerDTO dto) {
 		Player player = new Player();
 
 		if (dto.getPlayer_id() != null) {
@@ -79,19 +84,19 @@ public class PlayerImplService implements IPlayerService {
 		}
 
 		player.setName(dto.getName());
-		player.setCurrentTime(dto.getCurrentTime());
+		player.setDate(dto.getDate());
 
 		return player;
 	}
 
 	// Entity-DTO conversion
-	private PlayerDTO mapEntitytoDTO(Player entity) {
-
+	@Override
+	public PlayerDTO mapEntitytoDTO(Player playerEntity) {
 		PlayerDTO dto = new PlayerDTO();
 
-		dto.setPlayer_id(entity.getPlayer_id());
-		dto.setName(entity.getName());
-		dto.setCurrentTime(entity.getCurrentTime());
+		dto.setPlayer_id(playerEntity.getPlayer_id());
+		dto.setName(playerEntity.getName());
+		dto.setDate(playerEntity.getDate());
 
 		return dto;
 	}
