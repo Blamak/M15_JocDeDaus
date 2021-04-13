@@ -1,17 +1,14 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
-import java.util.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 
 @Entity
 @Table(name = "Game")
@@ -20,7 +17,7 @@ public class Game {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long games_id;
+	private long game_id;
 	@Column
 	private int dice1;
 	@Column
@@ -29,18 +26,18 @@ public class Game {
 	private String result;
 	
 	@JoinColumn(name = "player_id")
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
 	private Player player;
 	
 
 	// getters & setters:
 	
-	public Long getGames_id() {
-		return games_id;
+	public Long getGame_id() {
+		return game_id;
 	}
 
 	public void setGames_id(long game_id) {
-		this.games_id = game_id;
+		this.game_id = game_id;
 	}
 
 	public Integer getDice1() {

@@ -1,16 +1,11 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,7 +19,8 @@ public class Player {
 	@Column
 	private String name;
 	@Column
-	private Timestamp date;
+	private Timestamp date_registered;
+	
 	
 	// getters & setters:
 	
@@ -44,12 +40,12 @@ public class Player {
 		this.name = name;
 	}
 
-	public Timestamp getDate() {
-		return date;
+	public Timestamp getDate_registered() {
+		return date_registered;
 	}
 
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setDate_registered(Timestamp date_registered) {
+		this.date_registered = date_registered;
 	}
 
 }

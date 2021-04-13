@@ -17,7 +17,7 @@ public interface IPlayerService {
 	
 	public boolean checkPlayerExists(long player_id);
 	
-	public Player mapDtotoEntity(PlayerDTO playerDTO);
+	public Player mapDTOtoEntity(PlayerDTO playerDTO);
 
 	public PlayerDTO mapEntitytoDTO(Player playerEntity);
 	
