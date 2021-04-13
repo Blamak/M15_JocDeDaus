@@ -34,7 +34,7 @@ public class PlayerController {
 					HttpStatus.OK);
 		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
 			return new ResponseEntity<Message>(
-					new Message("Another Player has this name already!", null, duplicateError.getMessage()),
+					new Message("Another player already has this name!", null, duplicateError.getMessage()),
 					HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<Message>(new Message("New Player post failed!", null, e.getMessage()),
