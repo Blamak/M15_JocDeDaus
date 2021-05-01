@@ -19,9 +19,9 @@ public class PlayerImplService implements IPlayerService {
 
 	@Override
 	public PlayerDTO savePlayer(PlayerDTO playerDTO) {
-		Player player = this.mapDTOtoEntity(playerDTO);
-		playerRepository.save(player);
-		return this.mapEntitytoDTO(player);
+		Player savedPlayer = this.mapDTOtoEntity(playerDTO);
+		playerRepository.save(savedPlayer);
+		return this.mapEntitytoDTO(savedPlayer);
 	}
 
 	@Override

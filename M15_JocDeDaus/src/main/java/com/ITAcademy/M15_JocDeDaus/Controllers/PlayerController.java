@@ -31,11 +31,11 @@ public class PlayerController {
 			PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
 
 			return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
-					HttpStatus.OK);
+					HttpStatus.CREATED);
 		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
 			return new ResponseEntity<Message>(
 					new Message("Another player already has this name!", null, duplicateError.getMessage()),
-					HttpStatus.BAD_REQUEST);
+					HttpStatus.CONFLICT);
 		} catch (Exception e) {
 			return new ResponseEntity<Message>(new Message("New Player post failed!", null, e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);
