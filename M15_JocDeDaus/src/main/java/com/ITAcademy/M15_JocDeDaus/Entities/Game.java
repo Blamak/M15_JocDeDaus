@@ -28,7 +28,6 @@ public class Game {
 	@ManyToOne
 	private Player player;
 	
-
 	// getters & setters:
 	
 	public Long getGame_id() {
