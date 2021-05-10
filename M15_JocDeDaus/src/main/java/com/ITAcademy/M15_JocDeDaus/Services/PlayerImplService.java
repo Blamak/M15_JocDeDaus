@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
@@ -12,11 +12,15 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 
 @Service
-public class PlayerImplService implements IPlayerService {
-
-	@Autowired
-	IPlayerRepository playerRepository;
-
+public class PlayerImplService implements IPlayerService {	
+	
+	private final IPlayerRepository playerRepository;
+	
+	// Repository injected via constructor injection, ensuring a consistent state
+	PlayerImplService(IPlayerRepository playerRepository) {
+		this.playerRepository = playerRepository;
+	}
+		
 	@Override
 	public PlayerDTO savePlayer(PlayerDTO playerDTO) {
 		Player savedPlayer = this.mapDTOtoEntity(playerDTO);
@@ -51,13 +55,10 @@ public class PlayerImplService implements IPlayerService {
 	@Override
 	public PlayerDTO getPlayerByID(long player_id) {
 		Optional<Player> player = playerRepository.findById(player_id);
+		if (!player.isPresent()) return null;
 		
-		if (player.isPresent()) {
-			return this.mapEntitytoDTO(player.get());
+		return this.mapEntitytoDTO(player.get());
 
-		} else {
-			return null;
-		}
 	}
 
 	@Override
