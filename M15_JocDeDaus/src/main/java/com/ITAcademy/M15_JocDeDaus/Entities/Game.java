@@ -29,7 +29,6 @@ public class Game {
     @ManyToOne(fetch = FetchType.LAZY)
 	private Player player;
 	
-
 	// getters & setters:
 	
 	public Long getGame_id() {
