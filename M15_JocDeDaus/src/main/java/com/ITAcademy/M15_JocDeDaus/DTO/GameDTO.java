@@ -2,20 +2,21 @@ package com.ITAcademy.M15_JocDeDaus.DTO;
 
 public class GameDTO {
 
-	private Long game_id;
-	private Integer dice1;
-	private Integer dice2;
+
+	private long game_id;
+	private int dice1;
+	private int dice2;
 	private String result;
 	private PlayerDTO player;
 
 	
 	// getters & setters:
-	
+
 	public Long getGame_id() {
 		return game_id;
 	}
 
-	public void setGame_id(Long game_id) {
+	public void setGames_id(long game_id) {
 		this.game_id = game_id;
 	}
 

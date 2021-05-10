@@ -2,6 +2,7 @@ package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,16 +17,16 @@ public class Game {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long game_id;
+	private long game_id;
 	@Column
-	private Integer dice1;
+	private int dice1;
 	@Column
-	private Integer dice2;
+	private int dice2;
 	@Column
 	private String result;
 	
 	@JoinColumn(name = "player_id")
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
 	private Player player;
 	
 	// getters & setters:
@@ -34,7 +35,7 @@ public class Game {
 		return game_id;
 	}
 
-	public void setGame_id(long game_id) {
+	public void setGames_id(long game_id) {
 		this.game_id = game_id;
 	}
 

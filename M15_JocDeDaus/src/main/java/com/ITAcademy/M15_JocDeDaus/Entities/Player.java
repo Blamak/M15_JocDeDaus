@@ -1,14 +1,11 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,23 +15,20 @@ public class Player {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long player_id;
+	private long player_id;
 	@Column
 	private String name;
-	@Column(name = "date")
-	private Timestamp currentTime;
+	@Column
+	private Timestamp date_registered;
 	
-	@OneToMany(mappedBy = "player")
-	private List<Game> games;
-
-
+	
 	// getters & setters:
 	
 	public Long getPlayer_id() {
 		return player_id;
 	}
 
-	public void setPlayer_id(Long player_id) {
+	public void setPlayer_id(long player_id) {
 		this.player_id = player_id;
 	}
 
@@ -46,20 +40,12 @@ public class Player {
 		this.name = name;
 	}
 
-	public Timestamp getCurrentTime() {
-		return currentTime;
+	public Timestamp getDate_registered() {
+		return date_registered;
 	}
 
-	public void setCurrentTime(Timestamp currentTime) {
-		this.currentTime = currentTime;
-	}
-
-	public List<Game> getGames() {
-		return games;
-	}
-
-	public void setGames(List<Game> games) {
-		this.games = games;
+	public void setDate_registered(Timestamp date_registered) {
+		this.date_registered = date_registered;
 	}
 
 }
