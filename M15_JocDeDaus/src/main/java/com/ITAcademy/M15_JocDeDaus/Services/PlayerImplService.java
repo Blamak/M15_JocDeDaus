@@ -20,7 +20,6 @@ public class PlayerImplService implements IPlayerService {
 
 	@Override
 	public ResponseEntity<PlayerDTO> savePlayer(PlayerDTO playerDTO) {
-
 		Player player = this.mapDtotoEntity(playerDTO);
 		player = playerRepository.save(player);
 
@@ -29,7 +28,6 @@ public class PlayerImplService implements IPlayerService {
 
 	@Override
 	public List<PlayerDTO> getAllPlayers() {
-
 		List<PlayerDTO> result = null;
 
 		List<Player> players = playerRepository.findAll();
@@ -45,7 +43,6 @@ public class PlayerImplService implements IPlayerService {
 
 	// DTO-entity conversion
 	private Player mapDtotoEntity(PlayerDTO dto) {
-
 		Player player = new Player();
 
 		if (dto.getPlayer_id() != null) {
@@ -60,7 +57,6 @@ public class PlayerImplService implements IPlayerService {
 
 	// Entity-DTO conversion
 	private PlayerDTO mapEntitytoDTO(Player entity) {
-
 		PlayerDTO dto = new PlayerDTO();
 
 		dto.setPlayer_id(entity.getPlayer_id());
