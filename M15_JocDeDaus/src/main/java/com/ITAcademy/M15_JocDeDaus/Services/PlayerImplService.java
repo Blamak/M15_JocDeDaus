@@ -34,7 +34,7 @@ public class PlayerImplService implements IPlayerService {
 		List<Player> playersList = playerRepository.findAll();
 
 		if (playersList != null && playersList.size() > 0) {
-			// after conversion from every player entity, populate the list of players DTO
+			// after conversion from every player entity, populate the list of DTO players
 			for (Player player : playersList) {
 				playersDTOList.add(this.mapEntitytoDTO(player));
 			}

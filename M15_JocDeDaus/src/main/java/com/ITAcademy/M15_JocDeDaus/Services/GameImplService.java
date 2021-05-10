@@ -141,8 +141,7 @@ public class GameImplService implements IGameService {
 	
 	// DTO-Entity conversion
 	private Game mapDTOtoEntity(GameDTO gameDTO) {
-		Game game= new Game();
-		
+		Game game = new Game();
 		Player player = playerService.mapDTOtoEntity(gameDTO.getPlayer());
 		
 		game.setGames_id(gameDTO.getGame_id());
