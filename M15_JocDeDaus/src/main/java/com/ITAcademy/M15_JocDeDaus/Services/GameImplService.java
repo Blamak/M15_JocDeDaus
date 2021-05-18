@@ -23,8 +23,11 @@ import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
 @Service
 public class GameImplService implements IGameService {
 
-	@Autowired
-	private IGameRepository gameRepository;
+	private final IGameRepository gameRepository;
+	// Repository injected via constructor injection, ensuring a consistent state
+	GameImplService(IGameRepository gameRepository) {
+		this.gameRepository = gameRepository;
+	}
 
 	@Autowired
 	private IPlayerService playerService;
@@ -91,10 +94,10 @@ public class GameImplService implements IGameService {
 	}
 
 	/**
-	 * Calculates how many games a player has played and has won, and returns his win rate
+	 * Calculates the percentage of games won by a particular player
 	 * 
 	 * @param {long} player_id
-	 * @return the percentage of games won by a particular player
+	 * @return the rate of  games won by the player
 	 */
 	@Override
 	public BigDecimal calculateWinRate(long player_id) {

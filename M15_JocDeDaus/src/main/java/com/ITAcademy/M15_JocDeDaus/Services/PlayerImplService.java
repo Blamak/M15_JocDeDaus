@@ -5,21 +5,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
+import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 
 @Service
-public class PlayerImplService implements IPlayerService {	
-	
+public class PlayerImplService implements IPlayerService {
+
 	private final IPlayerRepository playerRepository;
-	
+
 	// Repository injected via constructor injection, ensuring a consistent state
 	PlayerImplService(IPlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
 	}
-		
+
 	@Override
 	public PlayerDTO savePlayer(PlayerDTO playerDTO) {
 		Player savedPlayer = this.mapDTOtoEntity(playerDTO);
@@ -45,18 +47,17 @@ public class PlayerImplService implements IPlayerService {
 	@Override
 	public PlayerDTO replacePlayerName(PlayerDTO playerDTO) {
 		Player player = this.mapDTOtoEntity(playerDTO);
-		
+
 		playerRepository.save(player);
-		
+
 		return this.mapEntitytoDTO(player);
 	}
 
 	@Override
 	public PlayerDTO getPlayerByID(long player_id) {
-		Optional<Player> player = playerRepository.findById(player_id);
-		if (!player.isPresent()) return null;
-		
-		return this.mapEntitytoDTO(player.get());
+		return playerRepository
+				.findById(player_id).map(player -> this.mapEntitytoDTO(player))
+				.orElseThrow(() -> new PlayerNotFoundException("not found Player with id " + player_id));
 
 	}
 
@@ -65,7 +66,7 @@ public class PlayerImplService implements IPlayerService {
 		if (playerRepository.existsById(player_id)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 

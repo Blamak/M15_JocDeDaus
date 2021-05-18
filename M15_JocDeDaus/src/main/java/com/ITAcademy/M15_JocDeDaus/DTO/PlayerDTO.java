@@ -2,6 +2,11 @@ package com.ITAcademy.M15_JocDeDaus.DTO;
 
 import java.sql.Timestamp;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
+@Relation(collectionRelation = "players") // change array name in _embedded HAL return type
+//public class PlayerDTO extends RepresentationModel<PlayerDTO> {
 public class PlayerDTO {
 	
 	private long player_id;
@@ -9,7 +14,6 @@ public class PlayerDTO {
 	
 	//  create a “current time” JDBC Timestamp
 	private Timestamp date_registered = new Timestamp(System.currentTimeMillis());
-	
 	
 	// getters & setters:
 	

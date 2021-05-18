@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.RepresentationModel;
+
+import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
+
 @Entity
 @Table(name="Player")
 public class Player {
