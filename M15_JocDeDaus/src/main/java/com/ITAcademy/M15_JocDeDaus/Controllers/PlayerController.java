@@ -54,6 +54,10 @@ public class PlayerController {
 		try {
 			PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
 
+			if (playerReturned.getName() == null) {
+				playerReturned.setName("ANÒNIM");
+			}
+
 			return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
 					HttpStatus.CREATED);
 		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
@@ -69,14 +73,12 @@ public class PlayerController {
 	@GetMapping("/{player_id}")
 	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final long player_id) {
 		PlayerDTO player = playerService.getPlayerByID(player_id);
-		
+
 		return ResponseEntity.ok(new PlayerRepresentation(player));
 	}
-	
+
 //    return personRepository.findById(id).map(p - > ResponseEntity.ok(new PersonResource(p))).orElseThrow(() - > new PersonNotFoundException(id));
 
-	
-	
 //	public EntityModel<PlayerDTO> retrievePlayer(@PathVariable long player_id) {
 //		PlayerDTO player = playerService.getPlayerByID(player_id);
 //		EntityModel<PlayerDTO> resource = EntityModel.of(player);
@@ -90,6 +92,12 @@ public class PlayerController {
 	@GetMapping("")
 	public CollectionModel<PlayerDTO> retrieveAllPlayers() {
 		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
+
+		for (PlayerDTO player : allPlayers) {
+			if (player.getName() == null) {
+				player.setName("ANÒNIM");
+			}
+		}
 
 //		for (PlayerDTO player : allPlayers) {
 //			long playerID = player.getPlayer_id();
@@ -106,8 +114,6 @@ public class PlayerController {
 		CollectionModel<PlayerDTO> result = CollectionModel.of(allPlayers, link);
 		return result;
 	}
-	
-	
 
 //	@GetMapping("") // READ ALL PLAYERS
 //	public ResponseEntity<Resources> retrieveAllPlayers() {
@@ -125,60 +131,28 @@ public class PlayerController {
 //	}
 
 	@PutMapping("/{player_id}") // UPDATE PLAYER'S NAME
-	public ResponseEntity<Object> updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long player_id) {
-//		try {
-		PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
+	public ResponseEntity<Message> updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long player_id) {
+		try {
+			PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
+			playerReturned.setName(playerDTO.getName());
 
-		if (playerReturned == null)
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ertewydasdr");
-		// set new name
-		playerReturned.setName(playerDTO.getName());
+			// save change to database
+			playerService.replacePlayer(playerReturned);
 
-		// save change to database
-		playerService.replacePlayerName(playerReturned);
+			if (playerReturned.getName() == null) {
+				playerReturned.setName("ANÒNIM");
+			}
+			
+			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
+					HttpStatus.OK);
 
-//			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand("").toUri();
-
-//			return ResponseEntity.created(location).build();
-		return ResponseEntity.created(null).build();
-
-//		} catch (Exception e) {
-//			return ResponseEntity.badRequest().body("Unable to update");
-//		}
-
-//		EntityModel<PlayerDTO> playerResource = EntityModel.of(playerReturned);
-//		
-//		try {
-//			return ResponseEntity.created(new URI(playerResource.getRequiredLink(Link.REL_SELF).getHref()))
-//				.body(employeeResource);
-//		} catch (URISyntaxException e) {
-//			return ResponseEntity.badRequest().body("Unable to update " + employee);
-//		}
-//		
-//		try {
-//			if (playerService.checkPlayerExists(player_id)) {
-//				PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
-//				// set new name
-//				playerReturned.setName(playerDTO.getName());
-//
-//				// save change to database
-//				playerService.replacePlayerName(playerReturned);
-//
-//				return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
-//						HttpStatus.OK);
-//			} else {
-//				// id not corresponding to any player case
-//				return new ResponseEntity<Message>(
-//						new Message("Player with id = " + player_id + " not found!!", null, ""), HttpStatus.NOT_FOUND);
-//			}
-//		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
-//			return new ResponseEntity<Message>(
-//					new Message("Another Player has this name already!", null, duplicateError.getMessage()),
-//					HttpStatus.BAD_REQUEST);
-//		} catch (Exception e) {
-//			return new ResponseEntity<Message>(new Message("Failed update Player!", null, e.getMessage()),
-//					HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
+		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
+			return new ResponseEntity<Message>(
+					new Message("Another Player has this name already!", null, duplicateError.getMessage()),
+					HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<Message>(new Message("Failed update Player!", null, e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
 }

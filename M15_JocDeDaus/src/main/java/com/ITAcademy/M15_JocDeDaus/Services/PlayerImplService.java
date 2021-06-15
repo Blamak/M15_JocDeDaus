@@ -45,7 +45,7 @@ public class PlayerImplService implements IPlayerService {
 	}
 
 	@Override
-	public PlayerDTO replacePlayerName(PlayerDTO playerDTO) {
+	public PlayerDTO replacePlayer(PlayerDTO playerDTO) {
 		Player player = this.mapDTOtoEntity(playerDTO);
 
 		playerRepository.save(player);
@@ -55,9 +55,15 @@ public class PlayerImplService implements IPlayerService {
 
 	@Override
 	public PlayerDTO getPlayerByID(long player_id) {
-		return playerRepository
+		PlayerDTO playerReturned = playerRepository
 				.findById(player_id).map(player -> this.mapEntitytoDTO(player))
 				.orElseThrow(() -> new PlayerNotFoundException("not found Player with id " + player_id));
+
+		if (playerReturned.getName() == null) {
+			playerReturned.setName("ANÒNIM");
+		}
+
+		return playerReturned;
 
 	}
 
@@ -80,6 +86,7 @@ public class PlayerImplService implements IPlayerService {
 		}
 
 		player.setName(playerDTO.getName());
+		player.setWinRate(playerDTO.getWin_rate());
 		player.setDate_registered(playerDTO.getDate_registered());
 
 		return player;
@@ -92,6 +99,7 @@ public class PlayerImplService implements IPlayerService {
 
 		playerDTO.setPlayer_id(player.getPlayer_id());
 		playerDTO.setName(player.getName());
+		playerDTO.setWin_rate(player.getWinRate());
 		playerDTO.setDate_registered(player.getDate_registered());
 
 		return playerDTO;
