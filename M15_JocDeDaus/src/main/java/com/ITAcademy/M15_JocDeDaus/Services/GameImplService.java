@@ -23,8 +23,11 @@ import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
 @Service
 public class GameImplService implements IGameService {
 
-	@Autowired
-	private IGameRepository gameRepository;
+	private final IGameRepository gameRepository;
+	// Repository injected via constructor injection, ensuring a consistent state
+	GameImplService(IGameRepository gameRepository) {
+		this.gameRepository = gameRepository;
+	}
 
 	@Autowired
 	private IPlayerService playerService;
@@ -33,6 +36,8 @@ public class GameImplService implements IGameService {
 	public GameDTO saveGame(long player_id) {
 		GameDTO newGameDTO = new GameDTO();
 		PlayerDTO player = playerService.getPlayerByID(player_id);
+		BigDecimal playerWinRate;
+		
 
 		// roll the two dices
 		int dice1 = (int) (Math.random() * 6 + 1);
@@ -42,10 +47,11 @@ public class GameImplService implements IGameService {
 		String result = "";
 		if ((dice1 + dice2) == 7) {
 			result = "won";
+			
 		} else {
 			result = "lost";
 		}
-
+		
 		// set game attributes, except id
 		newGameDTO.setDice1(dice1);
 		newGameDTO.setDice2(dice2);
@@ -55,6 +61,11 @@ public class GameImplService implements IGameService {
 		// add to database, after entity conversion
 		Game newGame = this.mapDTOtoEntity(newGameDTO);
 		gameRepository.save(newGame);
+		
+		// update win rate's player in database
+		playerWinRate = this.calculateWinRate(player_id);
+		player.setWin_rate(playerWinRate);
+		playerService.replacePlayer(player);
 		
 		// set id to the DTO game
 		newGameDTO.setGames_id(newGame.getGame_id());
@@ -91,10 +102,10 @@ public class GameImplService implements IGameService {
 	}
 
 	/**
-	 * Calculates how many games a player has played and has won, and returns his win rate
+	 * Calculates the percentage of games won by a particular player
 	 * 
 	 * @param {long} player_id
-	 * @return the percentage of games won by a particular player
+	 * @return the rate of  games won by the player
 	 */
 	@Override
 	public BigDecimal calculateWinRate(long player_id) {

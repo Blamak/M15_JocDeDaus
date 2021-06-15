@@ -1,5 +1,6 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.hateoas.RepresentationModel;
+
+import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 
 @Entity
 @Table(name="Player")
@@ -19,11 +24,21 @@ public class Player {
 	@Column
 	private String name;
 	@Column
+	private BigDecimal win_rate;	
+	@Column
 	private Timestamp date_registered;
 	
 	
 	// getters & setters:
 	
+	public BigDecimal getWinRate() {
+		return win_rate;
+	}
+
+	public void setWinRate(BigDecimal winRate) {
+		this.win_rate = winRate;
+	}
+
 	public Long getPlayer_id() {
 		return player_id;
 	}
