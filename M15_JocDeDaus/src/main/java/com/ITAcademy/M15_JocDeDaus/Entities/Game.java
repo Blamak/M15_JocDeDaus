@@ -1,33 +1,16 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
 
-@Entity
-@Table(name = "Game")
 public class Game {
 	
 	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long game_id;
-	@Column
 	private int dice1;
-	@Column
 	private int dice2;
-	@Column
 	private String result;
 	
-	@JoinColumn(name = "player_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-	private Player player;
+//	private Player player;
 	
 	// getters & setters:
 	
@@ -63,12 +46,12 @@ public class Game {
 		this.result = result;
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+//	public Player getPlayer() {
+//		return player;
+//	}
+//
+//	public void setPlayer(Player player) {
+//		this.player = player;
+//	}
 	
 }
