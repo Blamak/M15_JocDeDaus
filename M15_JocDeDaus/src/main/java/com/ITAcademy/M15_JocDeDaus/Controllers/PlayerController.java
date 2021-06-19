@@ -33,6 +33,7 @@ import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Exceptions.ExceptionResponse;
 import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
+import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 import com.ITAcademy.M15_JocDeDaus.Response.Message;
 import com.ITAcademy.M15_JocDeDaus.Services.IGameService;
 import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
@@ -42,78 +43,78 @@ import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 //@EnableHypermediaSupport(type = HypermediaType.HAL)
 public class PlayerController {
 
-//	@Autowired
-//	private IPlayerService playerService;
+	@Autowired
+	private IPlayerService playerService;
 //
 //	@Autowired
 //	private IGameService gameService;
 //
-//	@PostMapping("") // CREATE NEW PLAYER
-//	public ResponseEntity<Message> addPlayer(@RequestBody PlayerDTO playerDTO) {
-//		try {
-//			PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
+	@PostMapping("") // CREATE NEW PLAYER
+	public ResponseEntity<Message> addPlayer(@RequestBody PlayerDTO playerDTO) {
+		try {
+			PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
+
+			if (playerReturned.getName() == null) {
+				playerReturned.setName("ANÒNIM");
+			}
+
+			return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
+					HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
+			return new ResponseEntity<Message>(
+					new Message("Another player already has this name!", null, duplicateError.getMessage()),
+					HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			return new ResponseEntity<Message>(new Message("New Player post failed!", null, e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 //
-//			if (playerReturned.getName() == null) {
-//				playerReturned.setName("ANÒNIM");
-//			}
+	@GetMapping("/{player_id}")
+	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final String player_id) {
+		PlayerDTO player = playerService.getPlayerByID(player_id);
+
+		return ResponseEntity.ok(new PlayerRepresentation(player));
+	}
 //
-//			return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
-//					HttpStatus.CREATED);
-//		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
-//			return new ResponseEntity<Message>(
-//					new Message("Another player already has this name!", null, duplicateError.getMessage()),
-//					HttpStatus.CONFLICT);
-//		} catch (Exception e) {
-//			return new ResponseEntity<Message>(new Message("New Player post failed!", null, e.getMessage()),
-//					HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
-//
-//	@GetMapping("/{player_id}")
-//	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final long player_id) {
-//		PlayerDTO player = playerService.getPlayerByID(player_id);
-//
-//		return ResponseEntity.ok(new PlayerRepresentation(player));
-//	}
-//
-//	@GetMapping("")
-//	public CollectionModel<PlayerDTO> retrieveAllPlayers() {
-//		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
-//
-//		for (PlayerDTO player : allPlayers) {
-//			if (player.getName() == null) {
-//				player.setName("ANÒNIM");
-//			}
-//		}
-//
-//		Link link = linkTo(PlayerController.class).withSelfRel();
-//		CollectionModel<PlayerDTO> result = CollectionModel.of(allPlayers, link);
-//		return result;
-//	}
-//
-//	@PutMapping("/{player_id}") // UPDATE PLAYER'S NAME
-//	public ResponseEntity<Message> updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable long player_id) {
-//		try {
-//			PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
-//			playerReturned.setName(playerDTO.getName());
-//
-//			// save change to database
-//			playerService.replacePlayer(playerReturned);
-//
-//			if (playerReturned.getName() == null) {
-//				playerReturned.setName("ANÒNIM");
-//			}
-//			
-//			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
-//					HttpStatus.OK);
-//
-//		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
-//			return new ResponseEntity<Message>(
-//					new Message("Another Player has this name already!", null, duplicateError.getMessage()),
-//					HttpStatus.BAD_REQUEST);
-//		} catch (Exception e) {
-//			return new ResponseEntity<Message>(new Message("Failed update Player!", null, e.getMessage()),
-//					HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
+	@GetMapping("")
+	public CollectionModel<PlayerDTO> retrieveAllPlayers() {
+		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
+
+		for (PlayerDTO player : allPlayers) {
+			if (player.getName() == null) {
+				player.setName("ANÒNIM");
+			}
+		}
+
+		Link link = linkTo(PlayerController.class).withSelfRel();
+		CollectionModel<PlayerDTO> result = CollectionModel.of(allPlayers, link);
+		return result;
+	}
+
+	@PutMapping("/{player_id}") // UPDATE PLAYER'S NAME
+	public ResponseEntity<Message> updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable String player_id) {
+		try {
+			PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
+			playerReturned.setName(playerDTO.getName());
+
+			// save change to database
+			playerService.replacePlayer(playerReturned);
+
+			if (playerReturned.getName() == null) {
+				playerReturned.setName("ANÒNIM");
+			}
+			
+			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
+					HttpStatus.OK);
+
+		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
+			return new ResponseEntity<Message>(
+					new Message("Another Player has this name already!", null, duplicateError.getMessage()),
+					HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<Message>(new Message("Failed update Player!", null, e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

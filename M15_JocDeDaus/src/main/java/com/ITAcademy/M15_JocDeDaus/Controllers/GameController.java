@@ -34,42 +34,42 @@ import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 @EnableHypermediaSupport(type = HypermediaType.HAL)
 public class GameController {
 
-//	@Autowired
-//	private IGameService gameService;
-//
-//	@Autowired
-//	private IPlayerService playerService;
+	@Autowired
+	private IGameService gameService;
 
-//	@PostMapping("/{player_id}/games") // CREATE A NEW GAME
-//	public ResponseEntity<Message> playGame(@PathVariable long player_id) {
+	@Autowired
+	private IPlayerService playerService;
+
+	@PostMapping("/{player_id}/games") // CREATE A NEW GAME
+	public ResponseEntity<Message> playGame(@PathVariable String player_id) {
+		try {
+			GameDTO returnedGame = gameService.saveGame(player_id);
+
+			return new ResponseEntity<Message>(new Message("Game created successfully!", returnedGame, ""),
+					HttpStatus.OK);
+			
+		} catch (NullPointerException noPlayerError) { // non existent player error
+			return new ResponseEntity<Message>(
+					new Message("There is no player with id = " + player_id + " in the database!", null,
+							noPlayerError.getMessage()),
+					HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<Message>(new Message("Failed to create a new game!", null, e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping(value = "/{player_id}/games", produces = { "application/hal+json" }) // READ ALL GAMES OF A PLAYER
+	public CollectionModel<GameDTO> retrievePlayerGames(@PathVariable String player_id) {
 //		try {
-//			GameDTO returnedGame = gameService.saveGame(player_id);
-//
-//			return new ResponseEntity<Message>(new Message("Game created successfully!", returnedGame, ""),
-//					HttpStatus.OK);
-//			
-//		} catch (NullPointerException noPlayerError) { // non existent player error
-//			return new ResponseEntity<Message>(
-//					new Message("There is no player with id = " + player_id + " in the database!", null,
-//							noPlayerError.getMessage()),
-//					HttpStatus.BAD_REQUEST);
-//		} catch (Exception e) {
-//			return new ResponseEntity<Message>(new Message("Failed to create a new game!", null, e.getMessage()),
-//					HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
-//
-//	@GetMapping(value = "/{player_id}/games", produces = { "application/hal+json" }) // READ ALL GAMES OF A PLAYER
-//	public CollectionModel<GameDTO> retrievePlayerGames(@PathVariable long player_id) {
-////		try {
-//			String playerName = playerService.getPlayerByID(player_id).getName();
-//			List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
-//			
-////			Link link = linkTo(GameController.class).withSelfRel();
-//			
-//			CollectionModel<GameDTO> result = CollectionModel.of(playerGames);
-//			
-//			return result;
+			String playerName = playerService.getPlayerByID(player_id).getName();
+			List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
+			
+//			Link link = linkTo(GameController.class).withSelfRel();
+			
+			CollectionModel<GameDTO> result = CollectionModel.of(playerGames);
+			
+			return result;
 //			
 ////			for (GameDTO game : playerGames) {
 ////				Link selfLink = linkTo(game).
@@ -95,7 +95,7 @@ public class GameController {
 ////			return new ResponseEntity<Message>(new Message("Failed to create a new game!", null, e.getMessage()),
 ////					HttpStatus.INTERNAL_SERVER_ERROR);
 ////		}
-//	}
+	}
 //
 //	@DeleteMapping("/{player_id}/games") // DELETE ALL GAMES OF A PLAYER
 //	public ResponseEntity<Message> deleteGames(@PathVariable long player_id) {

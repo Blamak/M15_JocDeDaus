@@ -7,7 +7,7 @@ import org.springframework.hateoas.server.core.Relation;
 public class GameDTO extends RepresentationModel<GameDTO> {
 
 
-	private long game_id;
+	private String game_id;
 	private int dice1;
 	private int dice2;
 	private String result;
@@ -16,11 +16,11 @@ public class GameDTO extends RepresentationModel<GameDTO> {
 	
 	// getters & setters:
 
-	public Long getGame_id() {
+	public String getGame_id() {
 		return game_id;
 	}
 
-	public void setGames_id(long game_id) {
+	public void setGames_id(String game_id) {
 		this.game_id = game_id;
 	}
 

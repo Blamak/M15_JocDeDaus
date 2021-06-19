@@ -10,6 +10,7 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 
 @Repository
 public interface IGameRepository extends MongoRepository<Game, Long>{
+
+	List<Game> findByPlayer(Player player);
 	
-//	List<Game> findByPlayer(Player player);
 }

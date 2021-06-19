@@ -1,24 +1,26 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "game")
 public class Game {
 	
 	@Id
-	private long game_id;
+	private String game_id;
 	private int dice1;
 	private int dice2;
 	private String result;
 	
-//	private Player player;
+	private Player player;
 	
 	// getters & setters:
 	
-	public Long getGame_id() {
+	public String getGame_id() {
 		return game_id;
 	}
 
-	public void setGames_id(long game_id) {
+	public void setGames_id(String game_id) {
 		this.game_id = game_id;
 	}
 
@@ -46,12 +48,12 @@ public class Game {
 		this.result = result;
 	}
 
-//	public Player getPlayer() {
-//		return player;
-//	}
-//
-//	public void setPlayer(Player player) {
-//		this.player = player;
-//	}
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 	
 }
