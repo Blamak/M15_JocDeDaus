@@ -96,25 +96,25 @@ public class GameController {
 ////					HttpStatus.INTERNAL_SERVER_ERROR);
 ////		}
 	}
-//
-//	@DeleteMapping("/{player_id}/games") // DELETE ALL GAMES OF A PLAYER
-//	public ResponseEntity<Message> deleteGames(@PathVariable long player_id) {
-//			String playerName = playerService.getPlayerByID(player_id).getName();
-//			List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
-//
-//			// check if player has no games played yet
-//			if (playerGames.isEmpty()) {
-//				return new ResponseEntity<Message>(
-//						new Message("Player " + playerName + " has not played any game yet.", null, ""), HttpStatus.OK);
-//			}
-//
-//			gameService.deleteGamesByPlayer(player_id);
-//
-//			return new ResponseEntity<Message>(new Message("Deleted all games of player: " + playerName, "", ""),
-//					HttpStatus.OK);
-//	}
-//	
-//
+
+	@DeleteMapping("/{player_id}/games") // DELETE ALL GAMES OF A PLAYER
+	public ResponseEntity<Message> deleteGames(@PathVariable String player_id) {
+			String playerName = playerService.getPlayerByID(player_id).getName();
+			List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
+
+			// check if player has no games played yet
+			if (playerGames.isEmpty()) {
+				return new ResponseEntity<Message>(
+						new Message("Player " + playerName + " has not played any game yet.", null, ""), HttpStatus.OK);
+			}
+
+			gameService.deleteGamesByPlayer(player_id);
+
+			return new ResponseEntity<Message>(new Message("Deleted all games of player: " + playerName, "", ""),
+					HttpStatus.OK);
+	}
+	
+
 //	// ======================= REQUESTS INVOLVING RANKING ======================== // 
 //
 //	/**

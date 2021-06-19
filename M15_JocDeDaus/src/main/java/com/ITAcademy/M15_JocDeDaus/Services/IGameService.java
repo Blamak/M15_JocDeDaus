@@ -9,7 +9,7 @@ public interface IGameService {
 	
 	public GameDTO saveGame(String player_id);
 	public List<GameDTO> gamesByPlayer(String player_id);
-//	public void deleteGamesByPlayer(long player_id);
+	public void deleteGamesByPlayer(String player_id);
 	public BigDecimal calculateWinRate(String player_id);
 
 

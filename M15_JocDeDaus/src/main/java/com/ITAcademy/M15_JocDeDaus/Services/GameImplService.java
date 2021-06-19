@@ -90,17 +90,17 @@ public class GameImplService implements IGameService {
 		return gamesDTOList;
 	}
 
-//	@Override
-//	public void deleteGamesByPlayer(long player_id) {
-//		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-//		Player player = playerService.mapDTOtoEntity(playerDTO);
-//
-//		List<Game> playerGames = gameRepository.findByPlayer(player);
-//		for (Game game : playerGames) {
-//			gameRepository.delete(game);
-//		}
-//	}
-//
+	@Override
+	public void deleteGamesByPlayer(String player_id) {
+		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
+		Player player = playerService.mapDTOtoEntity(playerDTO);
+
+		List<Game> playerGames = gameRepository.findByPlayer(player);
+		for (Game game : playerGames) {
+			gameRepository.delete(game);
+		}
+	}
+
 	/**
 	 * Calculates the percentage of games won by a particular player
 	 * 
