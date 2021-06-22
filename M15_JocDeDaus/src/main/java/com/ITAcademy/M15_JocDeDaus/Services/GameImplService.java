@@ -36,7 +36,7 @@ public class GameImplService implements IGameService {
 	public GameDTO saveGame(String player_id) {
 		GameDTO newGameDTO = new GameDTO();
 		PlayerDTO player = playerService.getPlayerByID(player_id);
-		Double playerWinRate;
+		BigDecimal playerWinRate;
 		
 
 		// roll the two dices
@@ -109,37 +109,34 @@ public class GameImplService implements IGameService {
 	 * Calculates the percentage of games won by a particular player
 	 * 
 	 * @param {String} player_id
-	 * @return the rate of  games won by the player
+	 * @return the rate of games won by the player
 	 */
 	@Override
-	public Double calculateWinRate(String player_id) {
+	public BigDecimal calculateWinRate(String player_id) {
 		Double wonGames = 0.0;
 		Double totalGames = 0.0;
 		Double wonPercent = 0.0;
 		List<GameDTO> playerGames = this.gamesByPlayer(player_id);
-		System.out.println("size: " + playerGames.size());
 		
 		if (playerGames.size() != 0) {
 			// count the number of games played and games won of the player
 			for (GameDTO game : playerGames) {
-				totalGames += 1.0;
+				totalGames += 1;
 				if (game.getResult().equals("won")) {
-					wonGames += 1.0;
+					wonGames += 1;
 				}
 			}
 			
-			System.out.println("won games: " + wonGames);
-			System.out.println("total games: " + totalGames);
 			wonPercent = (wonGames / totalGames) * 100;
-			System.out.println("won percent: " + wonPercent);
-			// round to 2 decimal points
-//			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
 			
-			return wonPercent;
+			// round to 2 decimal points
+			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
+			
+			return rounded_wonPercent;
 
 		} else {
 			// return Zero if the player has no games
-			return 0.0;
+			return BigDecimal.ZERO;
 		}
 	}
 

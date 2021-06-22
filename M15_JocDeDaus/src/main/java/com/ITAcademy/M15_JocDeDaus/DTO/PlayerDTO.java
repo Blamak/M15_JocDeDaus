@@ -16,7 +16,7 @@ public class PlayerDTO {
 	
 	private String id;
 	private String name;
-	private Double winRate;
+	private BigDecimal winRate;
 	
 
 	//  create a “current time” JDBC Timestamp
@@ -24,11 +24,11 @@ public class PlayerDTO {
 	
 	// getters & setters:
 	
-	public Double getWinRate() {
+	public BigDecimal getWinRate() {
 		return winRate;
 	}
 	
-	public void setWinRate(Double winRate) {
+	public void setWinRate(BigDecimal winRate) {
 		this.winRate = winRate;
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.hateoas.RepresentationModel;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -19,20 +20,22 @@ public class Player {
 	
 	@Id
 	private String id;
+	
+	@Indexed(unique=true)
 	private String name;
 	
-//	@Field(targetType = FieldType.DECIMAL128)
-	private Double winRate;	
+	@Field(targetType = FieldType.DECIMAL128)
+	private BigDecimal winRate;	
 	private Date date_registered;
 	
 	
 	// getters & setters:
 	
-	public Double getWinRate() {
+	public BigDecimal getWinRate() {
 		return winRate;
 	}
 
-	public void setWinRate(Double winRate) {
+	public void setWinRate(BigDecimal winRate) {
 		this.winRate = winRate;
 	}
 
