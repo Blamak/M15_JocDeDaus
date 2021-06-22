@@ -32,7 +32,7 @@ public class PlayerImplService implements IPlayerService {
 	@Override
 	public List<PlayerDTO> getAllPlayers() {
 		List<PlayerDTO> playersDTOList = new ArrayList<PlayerDTO>();
-		List<Player> playersList = playerRepository.findAll();
+		List<Player> playersList = (List<Player>) playerRepository.findAll();
 
 		if (playersList != null && playersList.size() > 0) {
 			// after conversion from every player entity, populate the list of DTO players
@@ -45,12 +45,11 @@ public class PlayerImplService implements IPlayerService {
 	}
 
 	@Override
-	public PlayerDTO replacePlayer(PlayerDTO playerDTO) {
+	public void replacePlayer(PlayerDTO playerDTO) {
 		Player player = this.mapDTOtoEntity(playerDTO);
-
 		playerRepository.save(player);
 
-		return this.mapEntitytoDTO(player);
+//		return this.mapEntitytoDTO(player);
 	}
 
 	@Override
@@ -81,12 +80,12 @@ public class PlayerImplService implements IPlayerService {
 	public Player mapDTOtoEntity(PlayerDTO playerDTO) {
 		Player player = new Player();
 
-		if (playerDTO.getPlayer_id() != null) {
-			player.setPlayer_id(playerDTO.getPlayer_id());
+		if (playerDTO.getId() != null) {
+			player.setId(playerDTO.getId());
 		}
 
 		player.setName(playerDTO.getName());
-		player.setWinRate(playerDTO.getWin_rate());
+		player.setWinRate(playerDTO.getWinRate());
 		player.setDate_registered(playerDTO.getDate_registered());
 
 		return player;
@@ -97,9 +96,9 @@ public class PlayerImplService implements IPlayerService {
 	public PlayerDTO mapEntitytoDTO(Player player) {
 		PlayerDTO playerDTO = new PlayerDTO();
 
-		playerDTO.setPlayer_id(player.getPlayer_id());
+		playerDTO.setId(player.getId());
 		playerDTO.setName(player.getName());
-		playerDTO.setWin_rate(player.getWinRate());
+		playerDTO.setWinRate(player.getWinRate());
 		playerDTO.setDate_registered(player.getDate_registered());
 
 		return playerDTO;

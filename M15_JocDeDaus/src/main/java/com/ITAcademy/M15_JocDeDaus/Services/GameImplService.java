@@ -36,7 +36,7 @@ public class GameImplService implements IGameService {
 	public GameDTO saveGame(String player_id) {
 		GameDTO newGameDTO = new GameDTO();
 		PlayerDTO player = playerService.getPlayerByID(player_id);
-		BigDecimal playerWinRate;
+		Double playerWinRate;
 		
 
 		// roll the two dices
@@ -56,19 +56,23 @@ public class GameImplService implements IGameService {
 		newGameDTO.setDice1(dice1);
 		newGameDTO.setDice2(dice2);
 		newGameDTO.setResult(result);
-		newGameDTO.setPlayer(player);
-		
-		// add to database, after entity conversion
+		newGameDTO.setPlayerId(player_id);
+
 		Game newGame = this.mapDTOtoEntity(newGameDTO);
 		gameRepository.save(newGame);
-		
-		// update win rate's player in database
+
 		playerWinRate = this.calculateWinRate(player_id);
-		player.setWin_rate(playerWinRate);
+		player.setWinRate(playerWinRate);
+
+		
+
+		// update win rate's player in database
+		
 		playerService.replacePlayer(player);
 		
+		
 		// set id to the DTO game
-		newGameDTO.setGames_id(newGame.getGame_id());
+		newGameDTO.setId(newGame.getId());
 		
 		return newGameDTO;
 	}
@@ -76,9 +80,9 @@ public class GameImplService implements IGameService {
 	@Override
 	public List<GameDTO> gamesByPlayer(String player_id) {
 		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-		Player player = playerService.mapDTOtoEntity(playerDTO);
+//		Player player = playerService.mapDTOtoEntity(playerDTO);
 		
-		List<Game> gamesList = gameRepository.findByPlayer(player);
+		List<Game> gamesList = gameRepository.findByPlayerId(player_id);
 		List<GameDTO> gamesDTOList = new ArrayList<GameDTO>();
 
 		// populate the list of games DTO after conversion from entity
@@ -92,10 +96,10 @@ public class GameImplService implements IGameService {
 
 	@Override
 	public void deleteGamesByPlayer(String player_id) {
-		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-		Player player = playerService.mapDTOtoEntity(playerDTO);
+//		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
+//		Player player = playerService.mapDTOtoEntity(playerDTO);
 
-		List<Game> playerGames = gameRepository.findByPlayer(player);
+		List<Game> playerGames = gameRepository.findByPlayerId(player_id);
 		for (Game game : playerGames) {
 			gameRepository.delete(game);
 		}
@@ -104,34 +108,38 @@ public class GameImplService implements IGameService {
 	/**
 	 * Calculates the percentage of games won by a particular player
 	 * 
-	 * @param {long} player_id
+	 * @param {String} player_id
 	 * @return the rate of  games won by the player
 	 */
 	@Override
-	public BigDecimal calculateWinRate(String player_id) {
-		float wonGames = 0;
-		float totalGames = 0;
-		float wonPercent = 0;
+	public Double calculateWinRate(String player_id) {
+		Double wonGames = 0.0;
+		Double totalGames = 0.0;
+		Double wonPercent = 0.0;
 		List<GameDTO> playerGames = this.gamesByPlayer(player_id);
+		System.out.println("size: " + playerGames.size());
 		
 		if (playerGames.size() != 0) {
 			// count the number of games played and games won of the player
 			for (GameDTO game : playerGames) {
-				totalGames += 1;
+				totalGames += 1.0;
 				if (game.getResult().equals("won")) {
-					wonGames += 1;
+					wonGames += 1.0;
 				}
 			}
 			
+			System.out.println("won games: " + wonGames);
+			System.out.println("total games: " + totalGames);
 			wonPercent = (wonGames / totalGames) * 100;
+			System.out.println("won percent: " + wonPercent);
 			// round to 2 decimal points
-			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
+//			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
 			
-			return rounded_wonPercent;
+			return wonPercent;
 
 		} else {
 			// return Zero if the player has no games
-			return BigDecimal.ZERO;
+			return 0.0;
 		}
 	}
 
@@ -139,13 +147,13 @@ public class GameImplService implements IGameService {
 	private GameDTO mapEntitytoDTO(Game game) {
 		GameDTO gameDTO = new GameDTO();
 		
-		PlayerDTO playerDTO = playerService.mapEntitytoDTO(game.getPlayer());
+		String player_id = game.getPlayerId();
 		
-		gameDTO.setGames_id(game.getGame_id());
+		gameDTO.setId(game.getId());
 		gameDTO.setDice1(game.getDice1());
 		gameDTO.setDice2(game.getDice2());
 		gameDTO.setResult(game.getResult());
-		gameDTO.setPlayer(playerDTO);
+		gameDTO.setPlayerId(player_id);
 
 		return gameDTO;
 	}
@@ -153,13 +161,13 @@ public class GameImplService implements IGameService {
 	// DTO-Entity conversion
 	private Game mapDTOtoEntity(GameDTO gameDTO) {
 		Game game = new Game();
-		Player player = playerService.mapDTOtoEntity(gameDTO.getPlayer());
+		String player_id = gameDTO.getPlayerId();
 		
-		game.setGames_id(gameDTO.getGame_id());
+		game.setId(gameDTO.getId());
 		game.setDice1(gameDTO.getDice1());
 		game.setDice2(gameDTO.getDice2());
 		game.setResult(gameDTO.getResult());
-		game.setPlayer(player);
+		game.setPlayerId(player_id);
 		
 		return game;
 		

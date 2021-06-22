@@ -14,9 +14,9 @@ import org.springframework.hateoas.server.core.Relation;
 //public class PlayerDTO extends RepresentationModel<PlayerDTO> {
 public class PlayerDTO {
 	
-	private String player_id;
+	private String id;
 	private String name;
-	private BigDecimal win_rate;
+	private Double winRate;
 	
 
 	//  create a “current time” JDBC Timestamp
@@ -24,20 +24,20 @@ public class PlayerDTO {
 	
 	// getters & setters:
 	
-	public BigDecimal getWin_rate() {
-		return win_rate;
+	public Double getWinRate() {
+		return winRate;
 	}
 	
-	public void setWin_rate(BigDecimal win_rate) {
-		this.win_rate = win_rate;
+	public void setWinRate(Double winRate) {
+		this.winRate = winRate;
 	}
 
-	public String getPlayer_id() {
-		return player_id;
+	public String getId() {
+		return this.id;
 	}
 	
-	public void setPlayer_id(String player_id) {
-		this.player_id = player_id;
+	public void setId(String player_id) {
+		this.id = player_id;
 	}
 	
 	public String getName() {

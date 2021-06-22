@@ -9,7 +9,7 @@ public interface IPlayerService {
 	
 	public PlayerDTO savePlayer(PlayerDTO playerDTO);
 	public List<PlayerDTO> getAllPlayers();
-	public PlayerDTO replacePlayer(PlayerDTO playerDTO);
+	public void replacePlayer(PlayerDTO playerDTO);
 	public PlayerDTO getPlayerByID(String player_id);
 //	public boolean checkPlayerExists(long player_id);
 //	

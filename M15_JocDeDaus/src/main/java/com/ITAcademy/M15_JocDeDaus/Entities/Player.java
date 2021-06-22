@@ -11,6 +11,8 @@ import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 @Document(collection = "player")
 public class Player {
@@ -18,25 +20,27 @@ public class Player {
 	@Id
 	private String id;
 	private String name;
-	private BigDecimal win_rate;	
+	
+//	@Field(targetType = FieldType.DECIMAL128)
+	private Double winRate;	
 	private Date date_registered;
 	
 	
 	// getters & setters:
 	
-	public BigDecimal getWinRate() {
-		return win_rate;
+	public Double getWinRate() {
+		return winRate;
 	}
 
-	public void setWinRate(BigDecimal winRate) {
-		this.win_rate = winRate;
+	public void setWinRate(Double winRate) {
+		this.winRate = winRate;
 	}
 
-	public String getPlayer_id() {
+	public String getId() {
 		return id;
 	}
 
-	public void setPlayer_id(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

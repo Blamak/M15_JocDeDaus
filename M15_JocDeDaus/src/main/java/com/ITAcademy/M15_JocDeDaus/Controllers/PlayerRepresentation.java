@@ -12,7 +12,7 @@ public class PlayerRepresentation extends RepresentationModel<PlayerRepresentati
 	
 	public PlayerRepresentation(final PlayerDTO player) {
 		this.player = player;
-		final String player_id = player.getPlayer_id();
+		final String player_id = player.getId();
 		add(linkTo(methodOn(PlayerController.class).retrievePlayer(player_id)).withSelfRel());
 //		add(linkTo(methodOn(GameController.class).retrievePlayerGames(player_id)).withRel("all-games"));
 	}

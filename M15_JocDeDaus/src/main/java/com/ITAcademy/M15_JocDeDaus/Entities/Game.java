@@ -7,21 +7,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Game {
 	
 	@Id
-	private String game_id;
+	private String id;
 	private int dice1;
 	private int dice2;
 	private String result;
 	
-	private Player player;
+	private String playerId;
 	
 	// getters & setters:
 	
-	public String getGame_id() {
-		return game_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setGames_id(String game_id) {
-		this.game_id = game_id;
+	public void setId(String game_id) {
+		this.id = game_id;
 	}
 
 	public Integer getDice1() {
@@ -48,12 +48,12 @@ public class Game {
 		this.result = result;
 	}
 
-	public Player getPlayer() {
-		return player;
+	public String getPlayerId() {
+		return playerId;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
 	}
 	
 }
