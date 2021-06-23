@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 
 @Repository
-public interface IPlayerRepository extends CrudRepository<Player, String> {
+public interface IPlayerRepository extends MongoRepository<Player, String> {
 	
-//	Player findByName(String name);
+	Player findByName(String name);
 
 //	Optional<Player> findById(String player_id);
 

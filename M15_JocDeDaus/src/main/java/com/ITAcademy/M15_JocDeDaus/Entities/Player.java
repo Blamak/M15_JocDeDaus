@@ -20,12 +20,11 @@ public class Player {
 	
 	@Id
 	private String id;
-	
-	@Indexed(unique=true)
+	@Field
 	private String name;
-	
 	@Field(targetType = FieldType.DECIMAL128)
-	private BigDecimal winRate;	
+	private BigDecimal winRate;
+	@Field
 	private Date date_registered;
 	
 	

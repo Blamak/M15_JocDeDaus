@@ -45,6 +45,7 @@ public class PlayerController {
 
 	@Autowired
 	private IPlayerService playerService;
+
 //
 //	@Autowired
 //	private IGameService gameService;
@@ -52,23 +53,26 @@ public class PlayerController {
 	@PostMapping("") // CREATE NEW PLAYER
 	public ResponseEntity<Message> addPlayer(@RequestBody PlayerDTO playerDTO) {
 		try {
-			PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
 
-			if (playerReturned.getName() == null) {
-				playerReturned.setName("ANÒNIM");
+			if (playerDTO.getName() == null || playerDTO.getName().equals("")) {
+				playerDTO.setName("ANÒNIM");
 			}
 
-			return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
-					HttpStatus.CREATED);
-		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
-			return new ResponseEntity<Message>(
-					new Message("Another player already has this name!", null, duplicateError.getMessage()),
-					HttpStatus.CONFLICT);
+			// Check if name exists - if not, save player to database
+			if (playerService.checkNameDuplicated(playerDTO.getName())) {
+				return new ResponseEntity<Message>(new Message("Another player already has this name!", null, null),
+						HttpStatus.CONFLICT);
+			} else {
+				PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
+				return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
+						HttpStatus.CREATED);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<Message>(new Message("New Player post failed!", null, e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 //
 	@GetMapping("/{player_id}")
 	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final String player_id) {
@@ -76,6 +80,7 @@ public class PlayerController {
 
 		return ResponseEntity.ok(new PlayerRepresentation(player));
 	}
+
 //
 	@GetMapping("")
 	public CollectionModel<PlayerDTO> retrieveAllPlayers() {
@@ -104,7 +109,7 @@ public class PlayerController {
 			if (playerReturned.getName() == null) {
 				playerReturned.setName("ANÒNIM");
 			}
-			
+
 			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
 					HttpStatus.OK);
 
@@ -117,4 +122,5 @@ public class PlayerController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 }

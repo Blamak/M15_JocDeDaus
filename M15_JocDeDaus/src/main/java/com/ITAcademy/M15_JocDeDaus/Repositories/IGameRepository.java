@@ -10,7 +10,7 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Game;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 
 @Repository
-public interface IGameRepository extends CrudRepository<Game, String>{
+public interface IGameRepository extends MongoRepository<Game, String>{
 
 	List<Game> findByPlayerId(String player_id);
 	

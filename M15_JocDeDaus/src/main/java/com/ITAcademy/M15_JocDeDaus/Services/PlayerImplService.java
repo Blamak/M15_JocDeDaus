@@ -65,16 +65,26 @@ public class PlayerImplService implements IPlayerService {
 		return playerReturned;
 
 	}
-//
+
+	@Override
+	public boolean checkNameDuplicated(String name) {
+		
+		if (name.equals("ANÒNIM") || playerRepository.findByName(name) == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 //	@Override
-//	public boolean checkPlayerExists(long player_id) {
-//		if (playerRepository.existsById(player_id)) {
+//	public boolean checkPlayerExists(String player_id) {
+//		if (playerRepository.existsById(player_id) && ) {
 //			return true;
 //		}
 //
 //		return false;
 //	}
-//
+
 //	// DTO-Entity conversion
 	@Override
 	public Player mapDTOtoEntity(PlayerDTO playerDTO) {
