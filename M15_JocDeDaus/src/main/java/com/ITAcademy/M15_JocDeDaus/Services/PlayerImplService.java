@@ -13,7 +13,7 @@ import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 
 @Service
-public class PlayerImplService implements IPlayerService {
+public class PlayerImplService implements IPlayerService{
 
 	private final IPlayerRepository playerRepository;
 

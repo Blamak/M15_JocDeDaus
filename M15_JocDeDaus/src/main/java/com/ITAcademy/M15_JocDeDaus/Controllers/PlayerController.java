@@ -1,21 +1,9 @@
 package com.ITAcademy.M15_JocDeDaus.Controllers;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
-
-import javax.xml.crypto.URIReferenceException;
-
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -26,16 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-import com.ITAcademy.M15_JocDeDaus.Entities.Player;
-import com.ITAcademy.M15_JocDeDaus.Exceptions.ExceptionResponse;
-import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
-import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 import com.ITAcademy.M15_JocDeDaus.Response.Message;
-import com.ITAcademy.M15_JocDeDaus.Services.IGameService;
 import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 
 @RestController
@@ -50,6 +32,7 @@ public class PlayerController {
 //	@Autowired
 //	private IGameService gameService;
 //
+
 	@PostMapping("") // CREATE NEW PLAYER
 	public ResponseEntity<Message> addPlayer(@RequestBody PlayerDTO playerDTO) {
 		try {

@@ -55,5 +55,7 @@ public class PlayerDTO {
 	public void setDate_registered(Date date_registered) {
 		this.date_registered = date_registered;
 	}
+
+	
 	
 }
