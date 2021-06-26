@@ -15,6 +15,8 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 @Repository
 public interface IPlayerRepository extends MongoRepository<Player, String> {
 	
+	Boolean existsByName(String username);
+	
 	Player findByName(String name);
 
 //	Optional<Player> findById(String player_id);

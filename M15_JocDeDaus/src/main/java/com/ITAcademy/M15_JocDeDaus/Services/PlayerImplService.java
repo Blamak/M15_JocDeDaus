@@ -69,7 +69,7 @@ public class PlayerImplService implements IPlayerService{
 	@Override
 	public boolean checkNameDuplicated(String name) {
 		
-		if (name.equals("ANÒNIM") || playerRepository.findByName(name) == null) {
+		if (name.equals("ANÒNIM") || !playerRepository.existsByName(name)) {
 			return false;
 		} else {
 			return true;
