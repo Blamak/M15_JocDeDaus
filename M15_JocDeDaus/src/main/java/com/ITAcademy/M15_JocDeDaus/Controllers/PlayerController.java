@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-import com.ITAcademy.M15_JocDeDaus.Response.Message;
-import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
+import com.ITAcademy.M15_JocDeDaus.dto.PlayerDTO;
+import com.ITAcademy.M15_JocDeDaus.response.Message;
+import com.ITAcademy.M15_JocDeDaus.services.IPlayerService;
 
 @RestController
 @RequestMapping("/players")
