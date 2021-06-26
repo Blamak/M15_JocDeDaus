@@ -14,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ITAcademy.M15_JocDeDaus.Services.UserDetailsServiceImpl;
+import com.ITAcademy.M15_JocDeDaus.Security.jwt.AuthEntryPointJwt;
+import com.ITAcademy.M15_JocDeDaus.Security.jwt.AuthTokenFilter;
+import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

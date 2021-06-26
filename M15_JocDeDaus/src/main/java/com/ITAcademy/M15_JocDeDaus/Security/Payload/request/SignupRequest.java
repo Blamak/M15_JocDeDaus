@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Payload.request;
+package com.ITAcademy.M15_JocDeDaus.Security.Payload.request;
 
 import java.util.Set;
 

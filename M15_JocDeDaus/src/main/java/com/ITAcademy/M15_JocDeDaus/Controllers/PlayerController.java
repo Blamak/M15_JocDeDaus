@@ -10,11 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Response.Message;
@@ -27,35 +25,6 @@ public class PlayerController {
 
 	@Autowired
 	private IPlayerService playerService;
-
-//
-//	@Autowired
-//	private IGameService gameService;
-//
-
-	@PostMapping("") // CREATE NEW PLAYER
-	public ResponseEntity<Message> addPlayer(@RequestBody PlayerDTO playerDTO) {
-		try {
-
-			if (playerDTO.getName() == null || playerDTO.getName().equals("")) {
-				playerDTO.setName("ANÒNIM");
-			}
-
-			// Check if name exists - if not, save player to database
-			if (playerService.checkNameDuplicated(playerDTO.getName())) {
-				return new ResponseEntity<Message>(new Message("Another player already has this name!", null, null),
-						HttpStatus.CONFLICT);
-			} else {
-				PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
-				return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
-						HttpStatus.CREATED);
-			}
-		} catch (Exception e) {
-			return new ResponseEntity<Message>(new Message("New Player post failed!", null, e.getMessage()),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
 //
 	@GetMapping("/{player_id}")
 	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final String player_id) {
@@ -85,14 +54,12 @@ public class PlayerController {
 		try {
 			PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
 			playerReturned.setName(playerDTO.getName());
-
 			// save change to database
 			playerService.replacePlayer(playerReturned);
 
 			if (playerReturned.getName() == null) {
 				playerReturned.setName("ANÒNIM");
 			}
-
 			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
 					HttpStatus.OK);
 

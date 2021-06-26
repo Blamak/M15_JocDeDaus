@@ -11,6 +11,7 @@ public interface IGameService {
 	public List<GameDTO> gamesByPlayer(String player_id);
 	public void deleteGamesByPlayer(String player_id);
 	public BigDecimal calculateWinRate(String player_id);
+	public Boolean checkNoGames();
 
 
 }

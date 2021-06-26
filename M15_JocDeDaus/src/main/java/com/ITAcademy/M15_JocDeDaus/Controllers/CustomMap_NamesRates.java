@@ -51,6 +51,7 @@ public class CustomMap_NamesRates {
 		return players;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<HashMap<String, BigDecimal>> showCustomMap() {
 		int index = 0;
 		HashMap<String, BigDecimal> nameRatePair = new HashMap<>();

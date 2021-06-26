@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Controllers;
+package com.ITAcademy.M15_JocDeDaus.Security.controllers;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,19 +22,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ITAcademy.M15_JocDeDaus.Security.JwtUtils;
-import com.ITAcademy.M15_JocDeDaus.Services.UserDetailsImpl;
+import com.ITAcademy.M15_JocDeDaus.Security.Payload.request.LoginRequest;
+import com.ITAcademy.M15_JocDeDaus.Security.Payload.request.SignupRequest;
+import com.ITAcademy.M15_JocDeDaus.Security.Payload.response.JwtResponse;
+import com.ITAcademy.M15_JocDeDaus.Security.Payload.response.MessageResponse;
+import com.ITAcademy.M15_JocDeDaus.Security.jwt.JwtUtils;
+import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsImpl;
 import com.ITAcademy.M15_JocDeDaus.Entities.ERole;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Entities.Role;
-import com.ITAcademy.M15_JocDeDaus.Payload.request.LoginRequest;
-import com.ITAcademy.M15_JocDeDaus.Payload.request.SignupRequest;
-import com.ITAcademy.M15_JocDeDaus.Payload.request.response.JwtResponse;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IRoleRepository;
-import com.ITAcademy.M15_JocDeDaus.Response.MessageResponse;
-
-
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

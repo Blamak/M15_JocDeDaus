@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Services;
+package com.ITAcademy.M15_JocDeDaus.Security.services;
 
 import java.util.Collection;
 import java.util.List;

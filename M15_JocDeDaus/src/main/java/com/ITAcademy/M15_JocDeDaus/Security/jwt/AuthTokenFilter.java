@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security;
+package com.ITAcademy.M15_JocDeDaus.Security.jwt;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ITAcademy.M15_JocDeDaus.Services.UserDetailsServiceImpl;
+import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsServiceImpl;
 
 
 public class AuthTokenFilter extends OncePerRequestFilter {

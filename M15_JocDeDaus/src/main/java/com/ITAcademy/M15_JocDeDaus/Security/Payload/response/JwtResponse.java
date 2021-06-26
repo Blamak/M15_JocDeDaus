@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Payload.request.response;
+package com.ITAcademy.M15_JocDeDaus.Security.Payload.response;
 
 import java.util.List;
 
