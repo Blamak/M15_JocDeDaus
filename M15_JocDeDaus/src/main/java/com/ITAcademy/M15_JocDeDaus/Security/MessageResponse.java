@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security.Payload.response;
+package com.ITAcademy.M15_JocDeDaus.Security;
 
 public class MessageResponse {
 	private String message;

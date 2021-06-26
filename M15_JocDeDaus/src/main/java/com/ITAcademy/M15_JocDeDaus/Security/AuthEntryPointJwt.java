@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security.jwt;
+package com.ITAcademy.M15_JocDeDaus.Security;
 
 import java.io.IOException;
 

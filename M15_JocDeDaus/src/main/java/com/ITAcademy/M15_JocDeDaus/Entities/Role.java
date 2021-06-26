@@ -12,7 +12,15 @@ public class Role {
   @Field
   private ERole name;
 
-  public Role() {
+  
+  
+  public Role(String id, ERole name) {
+	super();
+	this.id = id;
+	this.name = name;
+}
+
+public Role() {
 
   }
 

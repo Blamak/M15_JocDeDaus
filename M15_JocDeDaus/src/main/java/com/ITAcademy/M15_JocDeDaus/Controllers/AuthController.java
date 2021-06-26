@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security.controllers;
+package com.ITAcademy.M15_JocDeDaus.Controllers;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,17 +21,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ITAcademy.M15_JocDeDaus.Security.Payload.request.LoginRequest;
-import com.ITAcademy.M15_JocDeDaus.Security.Payload.request.SignupRequest;
-import com.ITAcademy.M15_JocDeDaus.Security.Payload.response.JwtResponse;
-import com.ITAcademy.M15_JocDeDaus.Security.Payload.response.MessageResponse;
-import com.ITAcademy.M15_JocDeDaus.Security.jwt.JwtUtils;
-import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsImpl;
 import com.ITAcademy.M15_JocDeDaus.Entities.ERole;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Entities.Role;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IRoleRepository;
+import com.ITAcademy.M15_JocDeDaus.Security.JwtResponse;
+import com.ITAcademy.M15_JocDeDaus.Security.JwtUtils;
+import com.ITAcademy.M15_JocDeDaus.Security.LoginRequest;
+import com.ITAcademy.M15_JocDeDaus.Security.MessageResponse;
+import com.ITAcademy.M15_JocDeDaus.Security.SignupRequest;
+import com.ITAcademy.M15_JocDeDaus.Security.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

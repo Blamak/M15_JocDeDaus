@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security.services;
+package com.ITAcademy.M15_JocDeDaus.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

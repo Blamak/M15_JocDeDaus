@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security.Payload.request;
+package com.ITAcademy.M15_JocDeDaus.Security;
 
 import javax.validation.constraints.NotBlank;
 
