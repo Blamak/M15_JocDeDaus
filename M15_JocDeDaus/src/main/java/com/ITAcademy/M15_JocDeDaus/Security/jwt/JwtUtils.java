@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security;
+package com.ITAcademy.M15_JocDeDaus.Security.jwt;
 
 import java.util.Date;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsImpl;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

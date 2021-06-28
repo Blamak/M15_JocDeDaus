@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Security;
+package com.ITAcademy.M15_JocDeDaus.Security.jwt;
 
 import java.io.IOException;
 
@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsServiceImpl;
 
 
 
