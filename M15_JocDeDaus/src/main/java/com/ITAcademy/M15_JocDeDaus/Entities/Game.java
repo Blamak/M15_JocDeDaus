@@ -2,19 +2,21 @@ package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "game")
 public class Game {
 	
 	@Id
 	private String id;
+	@Field
 	private int dice1;
+	@Field
 	private int dice2;
+	@Field
 	private String result;
-	
+	@Field
 	private String playerId;
-	
-	// getters & setters:
 	
 	public String getId() {
 		return id;

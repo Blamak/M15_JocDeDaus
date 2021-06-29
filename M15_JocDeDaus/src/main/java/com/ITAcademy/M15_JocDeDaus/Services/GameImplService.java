@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.ITAcademy.M15_JocDeDaus.DTO.GameDTO;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Game;
-import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
 
 /**
@@ -19,7 +18,6 @@ import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
  * with the Game entity.
  * 
  */
-
 @Service
 public class GameImplService implements IGameService {
 
@@ -33,16 +31,10 @@ public class GameImplService implements IGameService {
 	private IPlayerService playerService;
 
 	@Override
-	public GameDTO saveGame(String player_id) {
-		GameDTO newGameDTO = new GameDTO();
-		PlayerDTO player = playerService.getPlayerByID(player_id);
-		BigDecimal playerWinRate;
-		
-
+	public GameDTO playGame(String player_id) {
 		// roll the two dices
 		int dice1 = (int) (Math.random() * 6 + 1);
 		int dice2 = (int) (Math.random() * 6 + 1);
-
 		// dice1 + dice2 = 7 is a win, any other result is a defeat
 		String result = "";
 		if ((dice1 + dice2) == 7) {
@@ -51,6 +43,10 @@ public class GameImplService implements IGameService {
 		} else {
 			result = "lost";
 		}
+		
+		GameDTO newGameDTO = new GameDTO();
+		PlayerDTO player = playerService.getPlayerByID(player_id);
+		BigDecimal playerWinRate;
 		
 		// set game attributes, except id
 		newGameDTO.setDice1(dice1);
@@ -61,27 +57,18 @@ public class GameImplService implements IGameService {
 		Game newGame = this.mapDTOtoEntity(newGameDTO);
 		gameRepository.save(newGame);
 
+		// update win rate's player in database
 		playerWinRate = this.calculateWinRate(player_id);
 		player.setWinRate(playerWinRate);
-
-		
-
-		// update win rate's player in database
-		
 		playerService.replacePlayer(player);
-		
 		
 		// set id to the DTO game
 		newGameDTO.setId(newGame.getId());
-		
 		return newGameDTO;
 	}
 
 	@Override
 	public List<GameDTO> gamesByPlayer(String player_id) {
-		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-//		Player player = playerService.mapDTOtoEntity(playerDTO);
-		
 		List<Game> gamesList = gameRepository.findByPlayerId(player_id);
 		List<GameDTO> gamesDTOList = new ArrayList<GameDTO>();
 
@@ -90,19 +77,23 @@ public class GameImplService implements IGameService {
 			GameDTO gameDTO = this.mapEntitytoDTO(game);
 			gamesDTOList.add(gameDTO);
 		}
-		
 		return gamesDTOList;
 	}
 
 	@Override
 	public void deleteGamesByPlayer(String player_id) {
-//		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-//		Player player = playerService.mapDTOtoEntity(playerDTO);
-
+		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
+		playerDTO.setWinRate(new BigDecimal("0.0"));
+		playerService.replacePlayer(playerDTO);
 		List<Game> playerGames = gameRepository.findByPlayerId(player_id);
 		for (Game game : playerGames) {
 			gameRepository.delete(game);
 		}
+	}
+	
+	@Override
+	public Boolean checkNoGames() {
+		return gameRepository.findAll().isEmpty();
 	}
 
 	/**
@@ -126,14 +117,10 @@ public class GameImplService implements IGameService {
 					wonGames += 1;
 				}
 			}
-			
 			wonPercent = (wonGames / totalGames) * 100;
-			
 			// round to 2 decimal points
 			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
-			
 			return rounded_wonPercent;
-
 		} else {
 			// return Zero if the player has no games
 			return BigDecimal.ZERO;
@@ -143,9 +130,7 @@ public class GameImplService implements IGameService {
 	// Entity-DTO conversion
 	private GameDTO mapEntitytoDTO(Game game) {
 		GameDTO gameDTO = new GameDTO();
-		
 		String player_id = game.getPlayerId();
-		
 		gameDTO.setId(game.getId());
 		gameDTO.setDice1(game.getDice1());
 		gameDTO.setDice2(game.getDice2());
@@ -159,7 +144,6 @@ public class GameImplService implements IGameService {
 	private Game mapDTOtoEntity(GameDTO gameDTO) {
 		Game game = new Game();
 		String player_id = gameDTO.getPlayerId();
-		
 		game.setId(gameDTO.getId());
 		game.setDice1(gameDTO.getDice1());
 		game.setDice2(gameDTO.getDice2());
@@ -167,8 +151,6 @@ public class GameImplService implements IGameService {
 		game.setPlayerId(player_id);
 		
 		return game;
-		
-		
 	}
 	
 }

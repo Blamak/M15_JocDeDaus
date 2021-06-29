@@ -10,5 +10,4 @@ public class M15JocDeDausApplication {
 		SpringApplication.run(M15JocDeDausApplication.class, args);
 	}
 
-
 }

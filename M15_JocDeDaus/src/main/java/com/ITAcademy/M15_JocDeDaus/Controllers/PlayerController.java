@@ -3,21 +3,12 @@ package com.ITAcademy.M15_JocDeDaus.Controllers;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.xml.crypto.URIReferenceException;
-
+import java.util.Map;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
-import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,15 +18,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.Message;
+import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.PlayerRepresentation;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-import com.ITAcademy.M15_JocDeDaus.Entities.Player;
-import com.ITAcademy.M15_JocDeDaus.Exceptions.ExceptionResponse;
 import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
-import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
-import com.ITAcademy.M15_JocDeDaus.Response.Message;
-import com.ITAcademy.M15_JocDeDaus.Services.IGameService;
 import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 
 @RestController
@@ -46,25 +32,26 @@ public class PlayerController {
 	@Autowired
 	private IPlayerService playerService;
 
-//
-//	@Autowired
-//	private IGameService gameService;
-//
 	@PostMapping("") // CREATE NEW PLAYER
-	public ResponseEntity<Message> addPlayer(@RequestBody PlayerDTO playerDTO) {
+	public ResponseEntity<Message> addPlayer(@RequestBody Map<String, String> nameMap) {
 		try {
 
-			if (playerDTO.getName() == null || playerDTO.getName().equals("")) {
-				playerDTO.setName("ANÒNIM");
+			String name = nameMap.get("name");
+			PlayerDTO newPlayer = new PlayerDTO();
+
+			if (name == null || name.equals("")) {
+				newPlayer.setName("ANÒNIM");
+			} else {
+				newPlayer.setName(name);
 			}
 
 			// Check if name exists - if not, save player to database
-			if (playerService.checkNameDuplicated(playerDTO.getName())) {
+			if (playerService.checkNameDuplicated(name)) {
 				return new ResponseEntity<Message>(new Message("Another player already has this name!", null, null),
 						HttpStatus.CONFLICT);
 			} else {
-				PlayerDTO playerReturned = playerService.savePlayer(playerDTO);
-				return new ResponseEntity<Message>(new Message("Player created successfully!", playerReturned, ""),
+				PlayerDTO playerReturned = playerService.savePlayer(newPlayer);
+				return new ResponseEntity<Message>(new Message("Player created successfully!", new PlayerRepresentation(playerReturned), ""),
 						HttpStatus.CREATED);
 			}
 		} catch (Exception e) {
@@ -73,50 +60,62 @@ public class PlayerController {
 		}
 	}
 
-//
 	@GetMapping("/{player_id}")
 	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final String player_id) {
 		PlayerDTO player = playerService.getPlayerByID(player_id);
-
 		return ResponseEntity.ok(new PlayerRepresentation(player));
 	}
 
-//
 	@GetMapping("")
-	public CollectionModel<PlayerDTO> retrieveAllPlayers() {
+	public CollectionModel<PlayerRepresentation> retrieveAllPlayers() {
 		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
-
-		for (PlayerDTO player : allPlayers) {
-			if (player.getName() == null) {
-				player.setName("ANÒNIM");
-			}
+		List<PlayerRepresentation> returnedList = new ArrayList<PlayerRepresentation>();
+		// conversion from playerDTO to PlayerRepresentation
+		for (PlayerDTO playerDTO : allPlayers) {
+			PlayerRepresentation playerRep = new PlayerRepresentation(playerDTO);
+			returnedList.add(playerRep);
+		}
+		// throw exception if database has no players
+		if (allPlayers == null || allPlayers.size() == 0) {
+			throw new PlayerNotFoundException("There are no players registered yet.");
 		}
 
-		Link link = linkTo(PlayerController.class).withSelfRel();
-		CollectionModel<PlayerDTO> result = CollectionModel.of(allPlayers, link);
+		// HATEOAS implementation
+		Link selfLink = linkTo(PlayerController.class).withSelfRel();
+		Link rankingLink = linkTo(methodOn(RankingController.class).getRankingList()).withRel("ranking");
+		Link bestPlayerLink = linkTo(methodOn(RankingController.class).getWinner()).withRel("best-player");
+		Link worstPlayerLink = linkTo(methodOn(RankingController.class).getLoser()).withRel("worst-player");
+		CollectionModel<PlayerRepresentation> result = CollectionModel.of(returnedList, selfLink, rankingLink, bestPlayerLink, worstPlayerLink);
+		
 		return result;
 	}
 
 	@PutMapping("/{player_id}") // UPDATE PLAYER'S NAME
-	public ResponseEntity<Message> updatePlayer(@RequestBody PlayerDTO playerDTO, @PathVariable String player_id) {
+	public ResponseEntity<Message> updatePlayer(@RequestBody Map<String, String> nameMap, @PathVariable String player_id) {
 		try {
 			PlayerDTO playerReturned = playerService.getPlayerByID(player_id);
-			playerReturned.setName(playerDTO.getName());
+			String newName = nameMap.get("name");
+			
+			// check for no change of name or duplicate name conflict
+			if (newName.equals(playerReturned.getName())) {
+				return new ResponseEntity<Message>(new Message("", null, null),
+						HttpStatus.NOT_MODIFIED);
+			} else if (playerService.checkNameDuplicated(newName)) {
+				return new ResponseEntity<Message>(new Message("Another player already has this name!", null, "Constraint Violation"),
+						HttpStatus.CONFLICT);
+			}
+			
+			if (newName == null || newName.equals("")) {
+				playerReturned.setName("ANÒNIM");
+			} else {
+				playerReturned.setName(newName);
+			}
 
 			// save change to database
 			playerService.replacePlayer(playerReturned);
-
-			if (playerReturned.getName() == null) {
-				playerReturned.setName("ANÒNIM");
-			}
-
 			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
 					HttpStatus.OK);
 
-		} catch (DataIntegrityViolationException duplicateError) { // handle duplicated name error
-			return new ResponseEntity<Message>(
-					new Message("Another Player has this name already!", null, duplicateError.getMessage()),
-					HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<Message>(new Message("Failed update Player!", null, e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,18 +1,20 @@
-package com.ITAcademy.M15_JocDeDaus.Controllers;
+package com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/*
+ * Class to create a list of maps name-rate 
+ * that allows duplicate key names ("ANONIM" case)
+ */
 public class CustomMap_NamesRates {
 
 	private List<String> names = new ArrayList<String>();
 	private List<BigDecimal> winRates = new ArrayList<BigDecimal>();
-	private int players = 0;
+	private int numberOfPlayers = 0;
 	
-	
-
 	public List<String> getNames() {
 		return names;
 	}
@@ -29,11 +31,11 @@ public class CustomMap_NamesRates {
 		this.winRates = winRates;
 	}
 
-	public CustomMap_NamesRates(List<String> names, List<BigDecimal> winRates, int players) {
+	public CustomMap_NamesRates(List<String> names, List<BigDecimal> winRates, int numberOfPlayers) {
 		super();
 		this.names = names;
 		this.winRates = winRates;
-		this.players = players;
+		this.numberOfPlayers = numberOfPlayers;
 	}
 
 	public CustomMap_NamesRates() {
@@ -43,18 +45,19 @@ public class CustomMap_NamesRates {
 	public void addNameAndRate(String name, BigDecimal winRate) {
 		this.names.add(name);
 		this.winRates.add(winRate);
-		this.players++;
+		this.numberOfPlayers++;
 		this.sortByRate();
 	}
 
-	public int getPlayers() {
-		return players;
+	public int getnumberOfPlayers() {
+		return numberOfPlayers;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<HashMap<String, BigDecimal>> showCustomMap() {
 		int index = 0;
-		HashMap<String, BigDecimal> nameRatePair = new HashMap<>();
-		List<HashMap<String, BigDecimal>> playersList = new ArrayList<>();
+		HashMap<String, BigDecimal> nameRatePair = new HashMap<String, BigDecimal>();
+		List<HashMap<String, BigDecimal>> playersList = new ArrayList<HashMap<String, BigDecimal>>();
 		for (String name : this.names) {
 			nameRatePair.put(name, this.winRates.get(index));
 			playersList.add((HashMap<String, BigDecimal>) nameRatePair.clone());
@@ -66,9 +69,9 @@ public class CustomMap_NamesRates {
 
 	public void sortByRate() {
 		
-		if (this.players > 1) {	
+		if (this.numberOfPlayers > 1) {	
 			
-			for (int i = this.players-1; i > 0; i--) {
+			for (int i = this.numberOfPlayers-1; i > 0; i--) {
 				
 				if (this.winRates.get(i).compareTo(this.winRates.get(i-1)) == 1) {
 					this.winRates.add(i-1, this.winRates.remove(i));

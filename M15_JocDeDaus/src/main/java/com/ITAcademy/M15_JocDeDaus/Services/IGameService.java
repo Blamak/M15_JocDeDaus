@@ -7,10 +7,11 @@ import com.ITAcademy.M15_JocDeDaus.DTO.GameDTO;
 
 public interface IGameService {
 	
-	public GameDTO saveGame(String player_id);
+	public GameDTO playGame(String player_id);
 	public List<GameDTO> gamesByPlayer(String player_id);
 	public void deleteGamesByPlayer(String player_id);
 	public BigDecimal calculateWinRate(String player_id);
+	public Boolean checkNoGames();
 
 
 }
