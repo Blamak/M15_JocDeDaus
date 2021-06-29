@@ -49,10 +49,6 @@ public class CustomMap_NamesRates {
 		this.sortByRate();
 	}
 
-	public int getPlayers() {
-		return numberOfPlayers;
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<HashMap<String, BigDecimal>> showCustomMap() {
 		int index = 0;

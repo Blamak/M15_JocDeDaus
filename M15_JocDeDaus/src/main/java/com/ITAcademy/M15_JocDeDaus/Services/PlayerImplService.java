@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.PlayerRepresentation;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
@@ -32,18 +31,18 @@ public class PlayerImplService implements IPlayerService {
 	 * Returns a list of all Player entities under the form of PlayerRepresentation objects
 	 */
 	@Override
-	public List<PlayerRepresentation> getAllPlayers() {
-		List<PlayerRepresentation> playersDTOList = new ArrayList<PlayerRepresentation>();
-		List<Player> playersList = playerRepository.findAll();
+	public List<PlayerDTO> getAllPlayers() {
+		List<PlayerDTO> returnedList = new ArrayList<PlayerDTO>();
+		List<Player> allPlayersList = playerRepository.findAll();
 
-		if (playersList != null && playersList.size() > 0) {
-			for (Player player : playersList) {
+		if (allPlayersList != null && allPlayersList.size() > 0) {
+			for (Player player : allPlayersList) {
 				PlayerDTO playerDTO = this.mapEntitytoDTO(player);
-				PlayerRepresentation playerReturned = new PlayerRepresentation(playerDTO);  
-				playersDTOList.add(playerReturned);
+//				PlayerRepresentation playerReturned = new PlayerRepresentation(playerDTO);  
+				returnedList.add(playerDTO);
 			}
 		}
-		return playersDTOList;
+		return returnedList;
 	}
 
 	@Override

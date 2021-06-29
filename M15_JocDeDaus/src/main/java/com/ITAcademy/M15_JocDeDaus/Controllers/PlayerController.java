@@ -3,6 +3,7 @@ package com.ITAcademy.M15_JocDeDaus.Controllers;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.hateoas.CollectionModel;
@@ -66,18 +67,24 @@ public class PlayerController {
 
 	@GetMapping("")
 	public CollectionModel<PlayerRepresentation> retrieveAllPlayers() {
-		List<PlayerRepresentation> allPlayers = playerService.getAllPlayers();
+		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
+		List<PlayerRepresentation> returnedList = new ArrayList<PlayerRepresentation>();
+		// conversion from playerDTO to PlayerRepresentation
+		for (PlayerDTO playerDTO : allPlayers) {
+			PlayerRepresentation playerRep = new PlayerRepresentation(playerDTO);
+			returnedList.add(playerRep);
+		}
 		// throw exception if database has no players
 		if (allPlayers == null || allPlayers.size() == 0) {
 			throw new PlayerNotFoundException("There are no players registered yet.");
 		}
 
 		// HATEOAS implementation
-		Link link = linkTo(PlayerController.class).withSelfRel();
+		Link selfLink = linkTo(PlayerController.class).withSelfRel();
 		Link rankingLink = linkTo(methodOn(RankingController.class).getRankingList()).withRel("ranking");
 		Link bestPlayerLink = linkTo(methodOn(RankingController.class).getWinner()).withRel("best-player");
 		Link worstPlayerLink = linkTo(methodOn(RankingController.class).getLoser()).withRel("worst-player");
-		CollectionModel<PlayerRepresentation> result = CollectionModel.of(allPlayers, link, rankingLink, bestPlayerLink, worstPlayerLink);
+		CollectionModel<PlayerRepresentation> result = CollectionModel.of(returnedList, selfLink, rankingLink, bestPlayerLink, worstPlayerLink);
 		
 		return result;
 	}

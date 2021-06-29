@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.CustomMap_NamesRates;
 import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.Message;
-import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.PlayerRepresentation;
+import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Services.IGameService;
 import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 
@@ -81,10 +81,10 @@ public class RankingController {
 	 */
 	private CustomMap_NamesRates getPlayersByRank() {
 		// retrieve and store all players' list
-		List<PlayerRepresentation> allPlayers = playerService.getAllPlayers();
+		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
 		CustomMap_NamesRates namesAndRates = new CustomMap_NamesRates();
 
-		for (PlayerRepresentation player : allPlayers) {
+		for (PlayerDTO player : allPlayers) {
 			String name = player.getName();
 			BigDecimal winRate = gameService.calculateWinRate(player.getPlayer_id());
 			namesAndRates.addNameAndRate(name, winRate);

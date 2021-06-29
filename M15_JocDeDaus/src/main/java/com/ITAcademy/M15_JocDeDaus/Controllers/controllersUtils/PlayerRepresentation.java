@@ -27,13 +27,4 @@ public class PlayerRepresentation extends RepresentationModel<PlayerRepresentati
 	public PlayerDTO getPlayer() {
 		return player;
 	}
-	
-	public Long getPlayer_id() {
-		return this.player.getPlayer_id();
-	}
-
-	public String getName() {
-		return this.player.getName();
-	}
-
 }
