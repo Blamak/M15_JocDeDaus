@@ -9,10 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.hateoas.RepresentationModel;
-
-import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-
 @Entity
 @Table(name="Player")
 public class Player {
@@ -28,9 +24,18 @@ public class Player {
 	@Column
 	private Timestamp date_registered;
 	
+	public Player() {
+		
+	}
 	
-	// getters & setters:
-	
+	public Player(long player_id, String name, BigDecimal win_rate, Timestamp date_registered) {
+		super();
+		this.player_id = player_id;
+		this.name = name;
+		this.win_rate = win_rate;
+		this.date_registered = date_registered;
+	}
+
 	public BigDecimal getWinRate() {
 		return win_rate;
 	}

@@ -14,16 +14,11 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Game;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
 
-/**
- * Implementation of all the services that imply any operation 
- * with the Game entity.
- * 
- */
-
 @Service
 public class GameImplService implements IGameService {
 
 	private final IGameRepository gameRepository;
+	
 	// Repository injected via constructor injection, ensuring a consistent state
 	GameImplService(IGameRepository gameRepository) {
 		this.gameRepository = gameRepository;
@@ -33,24 +28,21 @@ public class GameImplService implements IGameService {
 	private IPlayerService playerService;
 
 	@Override
-	public GameDTO saveGame(long player_id) {
-		GameDTO newGameDTO = new GameDTO();
-		PlayerDTO player = playerService.getPlayerByID(player_id);
-		BigDecimal playerWinRate;
-		
-
+	public GameDTO playGame(long player_id) {
 		// roll the two dices
 		int dice1 = (int) (Math.random() * 6 + 1);
 		int dice2 = (int) (Math.random() * 6 + 1);
-
 		// dice1 + dice2 = 7 is a win, any other result is a defeat
 		String result = "";
 		if ((dice1 + dice2) == 7) {
 			result = "won";
-			
 		} else {
 			result = "lost";
 		}
+		
+		GameDTO newGameDTO = new GameDTO();
+		PlayerDTO player = playerService.getPlayerByID(player_id);
+		BigDecimal playerWinRate;
 		
 		// set game attributes, except id
 		newGameDTO.setDice1(dice1);
@@ -69,7 +61,6 @@ public class GameImplService implements IGameService {
 		
 		// set id to the DTO game
 		newGameDTO.setGames_id(newGame.getGame_id());
-		
 		return newGameDTO;
 	}
 
@@ -77,16 +68,13 @@ public class GameImplService implements IGameService {
 	public List<GameDTO> gamesByPlayer(long player_id) {
 		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
 		Player player = playerService.mapDTOtoEntity(playerDTO);
-		
-		List<Game> gamesList = gameRepository.findByPlayer(player);
 		List<GameDTO> gamesDTOList = new ArrayList<GameDTO>();
-
+		List<Game> gamesList = gameRepository.findByPlayer(player);
 		// populate the list of games DTO after conversion from entity
 		for (Game game : gamesList) {
 			GameDTO gameDTO = this.mapEntitytoDTO(game);
 			gamesDTOList.add(gameDTO);
 		}
-		
 		return gamesDTOList;
 	}
 
@@ -94,11 +82,15 @@ public class GameImplService implements IGameService {
 	public void deleteGamesByPlayer(long player_id) {
 		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
 		Player player = playerService.mapDTOtoEntity(playerDTO);
-
 		List<Game> playerGames = gameRepository.findByPlayer(player);
 		for (Game game : playerGames) {
 			gameRepository.delete(game);
 		}
+	}
+	
+	@Override
+	public Boolean checkNoGames() {
+		return gameRepository.findAll().isEmpty();
 	}
 
 	/**
@@ -122,13 +114,10 @@ public class GameImplService implements IGameService {
 					wonGames += 1;
 				}
 			}
-			
 			wonPercent = (wonGames / totalGames) * 100;
 			// round to 2 decimal points
 			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
-			
 			return rounded_wonPercent;
-
 		} else {
 			// return Zero if the player has no games
 			return BigDecimal.ZERO;
@@ -137,10 +126,8 @@ public class GameImplService implements IGameService {
 
 	// Entity-DTO conversion
 	private GameDTO mapEntitytoDTO(Game game) {
-		GameDTO gameDTO = new GameDTO();
-		
 		PlayerDTO playerDTO = playerService.mapEntitytoDTO(game.getPlayer());
-		
+		GameDTO gameDTO = new GameDTO();
 		gameDTO.setGames_id(game.getGame_id());
 		gameDTO.setDice1(game.getDice1());
 		gameDTO.setDice2(game.getDice2());
@@ -152,9 +139,8 @@ public class GameImplService implements IGameService {
 	
 	// DTO-Entity conversion
 	private Game mapDTOtoEntity(GameDTO gameDTO) {
-		Game game = new Game();
 		Player player = playerService.mapDTOtoEntity(gameDTO.getPlayer());
-		
+		Game game = new Game();
 		game.setGames_id(gameDTO.getGame_id());
 		game.setDice1(gameDTO.getDice1());
 		game.setDice2(gameDTO.getDice2());
@@ -162,8 +148,6 @@ public class GameImplService implements IGameService {
 		game.setPlayer(player);
 		
 		return game;
-		
-		
 	}
 	
 }

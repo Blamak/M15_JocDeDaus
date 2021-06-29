@@ -7,5 +7,7 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 
 @Repository
 public interface IPlayerRepository extends JpaRepository<Player, Long> {
+	
+	Player findByName(String name);
 
-	}
+}

@@ -1,10 +1,17 @@
-package com.ITAcademy.M15_JocDeDaus.Controllers;
+package com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.ITAcademy.M15_JocDeDaus.Controllers.GameController;
+import com.ITAcademy.M15_JocDeDaus.Controllers.PlayerController;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
+
+/*
+ * Class to represent the Player entity in the HATEOAS implementation,
+ * so that not only data but also links to related resources are returned.
+ */
 
 public class PlayerRepresentation extends RepresentationModel<PlayerRepresentation>{
 	
@@ -19,6 +26,14 @@ public class PlayerRepresentation extends RepresentationModel<PlayerRepresentati
 
 	public PlayerDTO getPlayer() {
 		return player;
+	}
+	
+	public Long getPlayer_id() {
+		return this.player.getPlayer_id();
+	}
+
+	public String getName() {
+		return this.player.getName();
 	}
 
 }
