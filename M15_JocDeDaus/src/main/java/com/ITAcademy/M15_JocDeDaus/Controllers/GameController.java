@@ -27,8 +27,14 @@ public class GameController {
 
 	@PostMapping("/{player_id}/games") // CREATE A NEW GAME
 	public ResponseEntity<Message> playGame(@PathVariable long player_id) {
-		GameDTO newGame = gameService.playGame(player_id);
-		return new ResponseEntity<Message>(new Message("Game created successfully!", newGame, ""), HttpStatus.CREATED);
+		try {
+			GameDTO newGame = gameService.playGame(player_id);
+			return new ResponseEntity<Message>(new Message("Game created successfully!", newGame, ""),
+					HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Message>(new Message("Failed to create new game!", null, e.getMessage()),
+					HttpStatus.CREATED);
+		}
 	}
 
 	@GetMapping("/{player_id}/games") // READ ALL GAMES OF A PLAYER
@@ -38,8 +44,9 @@ public class GameController {
 
 		// check if player has no games played yet
 		if (playerGames.isEmpty()) {
-			return new ResponseEntity<Message>(new Message(
-					"Player " + playerName + " with id " + player_id +" has not played any game yet.", null, ""),
+			return new ResponseEntity<Message>(
+					new Message("Player " + playerName + " with id " + player_id + " has not played any game yet.",
+							null, ""),
 					HttpStatus.OK);
 		}
 		return new ResponseEntity<Message>(new Message("Games retrieved successfully!", playerGames, ""),

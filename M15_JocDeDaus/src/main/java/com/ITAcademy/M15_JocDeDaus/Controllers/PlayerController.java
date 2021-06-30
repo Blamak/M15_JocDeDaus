@@ -111,6 +111,7 @@ public class PlayerController {
 				playerReturned.setName(newName);
 			}
 			
+			//save change to database
 			playerService.replacePlayer(playerReturned);
 			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
 					HttpStatus.OK);

@@ -80,13 +80,12 @@ public class RankingController {
 	 * 
 	 */
 	private CustomMap_NamesRates getPlayersByRank() {
-		// retrieve and store all players' list
 		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
 		CustomMap_NamesRates namesAndRates = new CustomMap_NamesRates();
 
 		for (PlayerDTO player : allPlayers) {
 			String name = player.getName();
-			BigDecimal winRate = gameService.calculateWinRate(player.getPlayer_id());
+			BigDecimal winRate = player.getWin_rate();
 			namesAndRates.addNameAndRate(name, winRate);
 		}
 		return namesAndRates;

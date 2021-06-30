@@ -66,10 +66,8 @@ public class GameImplService implements IGameService {
 
 	@Override
 	public List<GameDTO> gamesByPlayer(long player_id) {
-		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-		Player player = playerService.mapDTOtoEntity(playerDTO);
+		List<Game> gamesList = gameRepository.findByPlayerId(player_id);
 		List<GameDTO> gamesDTOList = new ArrayList<GameDTO>();
-		List<Game> gamesList = gameRepository.findByPlayer(player);
 		// populate the list of games DTO after conversion from entity
 		for (Game game : gamesList) {
 			GameDTO gameDTO = this.mapEntitytoDTO(game);
@@ -81,8 +79,9 @@ public class GameImplService implements IGameService {
 	@Override
 	public void deleteGamesByPlayer(long player_id) {
 		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-		Player player = playerService.mapDTOtoEntity(playerDTO);
-		List<Game> playerGames = gameRepository.findByPlayer(player);
+		playerDTO.setWin_rate(new BigDecimal("0.0"));
+		playerService.replacePlayer(playerDTO);
+		List<Game> playerGames = gameRepository.findByPlayerId(player_id);
 		for (Game game : playerGames) {
 			gameRepository.delete(game);
 		}

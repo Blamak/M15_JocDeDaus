@@ -75,8 +75,8 @@ public class PlayerImplService implements IPlayerService {
 	public Player mapDTOtoEntity(PlayerDTO playerDTO) {
 		Player player = new Player();
 
-		if (playerDTO.getPlayer_id() != null) {
-			player.setPlayer_id(playerDTO.getPlayer_id());
+		if (playerDTO.getId() != null) {
+			player.setId(playerDTO.getId());
 		}
 		player.setName(playerDTO.getName());
 		player.setWinRate(playerDTO.getWin_rate());
@@ -89,7 +89,7 @@ public class PlayerImplService implements IPlayerService {
 	@Override
 	public PlayerDTO mapEntitytoDTO(Player player) {
 		PlayerDTO playerDTO = new PlayerDTO();
-		playerDTO.setPlayer_id(player.getPlayer_id());
+		playerDTO.setPlayer_id(player.getId());
 		playerDTO.setName(player.getName());
 		playerDTO.setWin_rate(player.getWinRate());
 		playerDTO.setDate_registered(player.getDate_registered());

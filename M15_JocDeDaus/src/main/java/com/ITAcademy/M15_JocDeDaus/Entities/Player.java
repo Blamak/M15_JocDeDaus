@@ -16,7 +16,7 @@ public class Player {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long player_id;
+	private long id;
 	@Column
 	private String name;
 	@Column
@@ -28,9 +28,9 @@ public class Player {
 		
 	}
 	
-	public Player(long player_id, String name, BigDecimal win_rate, Timestamp date_registered) {
+	public Player(long id, String name, BigDecimal win_rate, Timestamp date_registered) {
 		super();
-		this.player_id = player_id;
+		this.id = id;
 		this.name = name;
 		this.win_rate = win_rate;
 		this.date_registered = date_registered;
@@ -44,12 +44,12 @@ public class Player {
 		this.win_rate = winRate;
 	}
 
-	public Long getPlayer_id() {
-		return player_id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setPlayer_id(long player_id) {
-		this.player_id = player_id;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {

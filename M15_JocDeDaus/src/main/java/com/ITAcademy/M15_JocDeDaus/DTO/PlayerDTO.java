@@ -5,12 +5,11 @@ import java.sql.Timestamp;
 
 import org.springframework.hateoas.server.core.Relation;
 
-@Relation(collectionRelation = "players") // change array name in _embedded HAL return type
 public class PlayerDTO {
 
-	private long player_id;
+	private long id;
 	private String name;
-	private BigDecimal win_rate;
+	private BigDecimal win_rate = new BigDecimal("0.0");
 	private Timestamp date_registered = new Timestamp(System.currentTimeMillis());
 
 	public BigDecimal getWin_rate() {
@@ -21,12 +20,12 @@ public class PlayerDTO {
 		this.win_rate = win_rate;
 	}
 
-	public Long getPlayer_id() {
-		return player_id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setPlayer_id(long player_id) {
-		this.player_id = player_id;
+	public void setPlayer_id(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
