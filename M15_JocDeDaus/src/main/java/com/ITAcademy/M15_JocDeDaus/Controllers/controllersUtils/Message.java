@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Response;
+package com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils;
 
 public class Message {
 	

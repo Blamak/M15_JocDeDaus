@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.CustomMap_NamesRates;
+import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.Message;
 import com.ITAcademy.M15_JocDeDaus.DTO.GameDTO;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-import com.ITAcademy.M15_JocDeDaus.Response.Message;
 import com.ITAcademy.M15_JocDeDaus.Services.IGameService;
 import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 

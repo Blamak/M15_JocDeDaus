@@ -26,11 +26,11 @@ import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Entities.Role;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IRoleRepository;
-import com.ITAcademy.M15_JocDeDaus.Security.JwtResponse;
-import com.ITAcademy.M15_JocDeDaus.Security.LoginRequest;
-import com.ITAcademy.M15_JocDeDaus.Security.MessageResponse;
-import com.ITAcademy.M15_JocDeDaus.Security.SignupRequest;
 import com.ITAcademy.M15_JocDeDaus.Security.jwt.JwtUtils;
+import com.ITAcademy.M15_JocDeDaus.Security.payload.request.LoginRequest;
+import com.ITAcademy.M15_JocDeDaus.Security.payload.request.SignupRequest;
+import com.ITAcademy.M15_JocDeDaus.Security.payload.request.response.JwtResponse;
+import com.ITAcademy.M15_JocDeDaus.Security.payload.request.response.MessageResponse;
 import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
