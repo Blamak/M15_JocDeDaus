@@ -2,18 +2,14 @@ package com.ITAcademy.M15_JocDeDaus.Services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 
 @Service
-public class PlayerImplService implements IPlayerService{
+public class PlayerImplService implements IPlayerService {
 
 	private final IPlayerRepository playerRepository;
 
@@ -21,14 +17,14 @@ public class PlayerImplService implements IPlayerService{
 	PlayerImplService(IPlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
 	}
-//
+
 	@Override
 	public PlayerDTO savePlayer(PlayerDTO playerDTO) {
 		Player savedPlayer = this.mapDTOtoEntity(playerDTO);
 		playerRepository.save(savedPlayer);
 		return this.mapEntitytoDTO(savedPlayer);
 	}
-//
+
 	@Override
 	public List<PlayerDTO> getAllPlayers() {
 		List<PlayerDTO> playersDTOList = new ArrayList<PlayerDTO>();
@@ -49,13 +45,11 @@ public class PlayerImplService implements IPlayerService{
 		Player player = this.mapDTOtoEntity(playerDTO);
 		playerRepository.save(player);
 
-//		return this.mapEntitytoDTO(player);
 	}
 
 	@Override
 	public PlayerDTO getPlayerByID(String player_id) {
-		PlayerDTO playerReturned = playerRepository
-				.findById(player_id).map(player -> this.mapEntitytoDTO(player))
+		PlayerDTO playerReturned = playerRepository.findById(player_id).map(player -> this.mapEntitytoDTO(player))
 				.orElseThrow(() -> new PlayerNotFoundException("not found Player with id " + player_id));
 
 		if (playerReturned.getName() == null) {
@@ -63,12 +57,11 @@ public class PlayerImplService implements IPlayerService{
 		}
 
 		return playerReturned;
-
 	}
 
 	@Override
 	public boolean checkNameDuplicated(String name) {
-		
+
 		if (name.equals("ANÒNIM") || !playerRepository.existsByName(name)) {
 			return false;
 		} else {
@@ -76,16 +69,7 @@ public class PlayerImplService implements IPlayerService{
 		}
 	}
 
-//	@Override
-//	public boolean checkPlayerExists(String player_id) {
-//		if (playerRepository.existsById(player_id) && ) {
-//			return true;
-//		}
-//
-//		return false;
-//	}
-
-//	// DTO-Entity conversion
+	// DTO-Entity conversion
 	@Override
 	public Player mapDTOtoEntity(PlayerDTO playerDTO) {
 		Player player = new Player();

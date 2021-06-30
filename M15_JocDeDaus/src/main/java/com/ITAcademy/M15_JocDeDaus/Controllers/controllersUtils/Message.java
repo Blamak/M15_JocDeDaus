@@ -16,9 +16,6 @@ public class Message {
 		this.error = error;
 	}
 
-	
-	// getter & setters:
-	
 	public String getMessage() {
 		return message;
 	}

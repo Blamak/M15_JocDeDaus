@@ -54,15 +54,10 @@ public class GameController {
 
 	@GetMapping(value = "/{player_id}/games", produces = { "application/hal+json" }) // READ ALL GAMES OF A PLAYER
 	public CollectionModel<GameDTO> retrievePlayerGames(@PathVariable String player_id) {
-		String playerName = playerService.getPlayerByID(player_id).getName();
 		List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
-
-//			Link link = linkTo(GameController.class).withSelfRel();
-
 		CollectionModel<GameDTO> result = CollectionModel.of(playerGames);
 
 		return result;
-
 	}
 
 	@DeleteMapping("/{player_id}/games") // DELETE ALL GAMES OF A PLAYER
@@ -88,7 +83,7 @@ public class GameController {
 //	 * This method is called in the below GET requests: "/ranking", "/ranking/loser"
 //	 * and "/ranking/winner"
 //	 * 
-//	 * Creates a map of players and their win rates ordered by rate.
+//	 * Creates a list of maps of players and their win rates ordered by rate.
 //	 * 
 //	 * Through a loop adds every player's name and his rate to a 
 //	 */

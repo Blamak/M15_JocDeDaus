@@ -11,10 +11,7 @@ public class Game {
 	private int dice1;
 	private int dice2;
 	private String result;
-	
 	private String playerId;
-	
-	// getters & setters:
 	
 	public String getId() {
 		return id;

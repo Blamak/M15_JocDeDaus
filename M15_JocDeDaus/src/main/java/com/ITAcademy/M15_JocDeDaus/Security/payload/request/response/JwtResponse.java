@@ -3,6 +3,7 @@ package com.ITAcademy.M15_JocDeDaus.Security.payload.request.response;
 import java.util.List;
 
 public class JwtResponse {
+	
 	private String token;
 	private String type = "Bearer";
 	private String id;

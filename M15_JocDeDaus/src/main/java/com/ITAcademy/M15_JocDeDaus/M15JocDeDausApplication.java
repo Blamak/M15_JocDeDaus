@@ -20,16 +20,9 @@ public class M15JocDeDausApplication {
 	public CommandLineRunner demo(IRoleRepository roleRepository) {
 		return (args) -> {
 			// save roles
-			if (roleRepository.findByName(ERole.ROLE_ADMIN) != null) {
-				roleRepository.save(new Role(null, ERole.ROLE_ADMIN));
-			}
-			if (roleRepository.findByName(ERole.ROLE_MODERATOR) != null) {
-				roleRepository.save(new Role(null, ERole.ROLE_MODERATOR));
-			}
-			if (roleRepository.findByName(ERole.ROLE_USER) != null) {
-				roleRepository.save(new Role(null, ERole.ROLE_USER));
-			}
+			roleRepository.save(new Role(null, ERole.ROLE_ADMIN));
+			roleRepository.save(new Role(null, ERole.ROLE_MODERATOR));
+			roleRepository.save(new Role(null, ERole.ROLE_USER));
 		};
 	}
-
 }

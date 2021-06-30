@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IPlayerRepository;
 
-
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired

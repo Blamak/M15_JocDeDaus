@@ -11,8 +11,6 @@ public class CustomMap_NamesRates {
 	private List<BigDecimal> winRates = new ArrayList<BigDecimal>();
 	private int players = 0;
 	
-	
-
 	public List<String> getNames() {
 		return names;
 	}
@@ -37,7 +35,7 @@ public class CustomMap_NamesRates {
 	}
 
 	public CustomMap_NamesRates() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public void addNameAndRate(String name, BigDecimal winRate) {

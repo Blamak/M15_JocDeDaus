@@ -34,16 +34,9 @@ public class PlayerController {
 		return ResponseEntity.ok(new PlayerRepresentation(player));
 	}
 
-//
 	@GetMapping("")
 	public CollectionModel<PlayerDTO> retrieveAllPlayers() {
 		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
-
-		for (PlayerDTO player : allPlayers) {
-			if (player.getName() == null) {
-				player.setName("ANÒNIM");
-			}
-		}
 
 		Link link = linkTo(PlayerController.class).withSelfRel();
 		CollectionModel<PlayerDTO> result = CollectionModel.of(allPlayers, link);
@@ -58,9 +51,6 @@ public class PlayerController {
 			// save change to database
 			playerService.replacePlayer(playerReturned);
 
-			if (playerReturned.getName() == null) {
-				playerReturned.setName("ANÒNIM");
-			}
 			return new ResponseEntity<Message>(new Message("Player name successfully updated", playerReturned, ""),
 					HttpStatus.OK);
 

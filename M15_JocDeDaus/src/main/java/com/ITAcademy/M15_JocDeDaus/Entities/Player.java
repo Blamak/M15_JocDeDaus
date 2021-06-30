@@ -20,28 +20,23 @@ public class Player {
 	private String name;
 	@Field
 	String password;
-
 	@Field(targetType = FieldType.DECIMAL128)
 	private BigDecimal winRate;
-
+	@Field
+	private Date date_registered;
 	@DBRef
 	private Set<Role> roles = new HashSet<>();
 
-
-	public Player(String id, String name, String password) {
+	public Player(String id, String name, String password, Date date_registered) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.password = password;
+		this.date_registered = date_registered;
 	}
 
 	public Player() {
 	}
-
-	@Field
-	private Date date_registered;
-
-	// getters & setters:
 
 	public Set<Role> getRoles() {
 		return roles;

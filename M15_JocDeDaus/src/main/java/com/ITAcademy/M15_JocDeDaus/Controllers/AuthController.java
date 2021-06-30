@@ -1,5 +1,6 @@
 package com.ITAcademy.M15_JocDeDaus.Controllers;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,9 +33,9 @@ import com.ITAcademy.M15_JocDeDaus.Security.payload.request.response.JwtResponse
 import com.ITAcademy.M15_JocDeDaus.Security.payload.request.response.MessageResponse;
 import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 9600)
 @RestController
-@RequestMapping("/players")
+@RequestMapping("/api/auth")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -83,7 +83,7 @@ public class AuthController {
 
 		// Create new user's account
 		Player player = new Player("", signUpRequest.getUsername(), 
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword()), new Date());
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();

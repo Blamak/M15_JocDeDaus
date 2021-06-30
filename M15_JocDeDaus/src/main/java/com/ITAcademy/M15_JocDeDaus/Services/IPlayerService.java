@@ -11,9 +11,8 @@ public interface IPlayerService {
 	public List<PlayerDTO> getAllPlayers();
 	public void replacePlayer(PlayerDTO playerDTO);
 	public PlayerDTO getPlayerByID(String player_id);
-//	public boolean checkPlayerExists(String player_id);
 	public boolean checkNameDuplicated(String name);
-//	
+
 	public Player mapDTOtoEntity(PlayerDTO playerDTO);
 	public PlayerDTO mapEntitytoDTO(Player playerEntity);
 	

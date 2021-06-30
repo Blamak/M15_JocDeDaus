@@ -13,12 +13,6 @@ import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Game;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
 
-/**
- * Implementation of all the services that imply any operation 
- * with the Game entity.
- * 
- */
-
 @Service
 public class GameImplService implements IGameService {
 
@@ -40,6 +34,7 @@ public class GameImplService implements IGameService {
 		// roll the two dices
 		int dice1 = (int) (Math.random() * 6 + 1);
 		int dice2 = (int) (Math.random() * 6 + 1);
+		
 		// dice1 + dice2 = 7 is a win, any other result is a defeat
 		String result = "";
 		if ((dice1 + dice2) == 7) {
@@ -68,7 +63,6 @@ public class GameImplService implements IGameService {
 
 	@Override
 	public List<GameDTO> gamesByPlayer(String player_id) {
-		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
 		List<Game> gamesList = gameRepository.findByPlayerId(player_id);
 		List<GameDTO> gamesDTOList = new ArrayList<GameDTO>();
 
