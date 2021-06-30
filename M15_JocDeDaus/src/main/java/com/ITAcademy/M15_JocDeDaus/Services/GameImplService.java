@@ -13,11 +13,6 @@ import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Game;
 import com.ITAcademy.M15_JocDeDaus.Repositories.IGameRepository;
 
-/**
- * Implementation of all the services that imply any operation 
- * with the Game entity.
- * 
- */
 @Service
 public class GameImplService implements IGameService {
 
