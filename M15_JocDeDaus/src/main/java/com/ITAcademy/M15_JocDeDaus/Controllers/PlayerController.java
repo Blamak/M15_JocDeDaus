@@ -22,12 +22,11 @@ import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 
 @RestController
 @RequestMapping("/players")
-//@EnableHypermediaSupport(type = HypermediaType.HAL)
 public class PlayerController {
 
 	@Autowired
 	private IPlayerService playerService;
-//
+
 	@GetMapping("/{player_id}")
 	public ResponseEntity<PlayerRepresentation> retrievePlayer(@PathVariable final String player_id) {
 		PlayerDTO player = playerService.getPlayerByID(player_id);

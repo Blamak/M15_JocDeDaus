@@ -35,7 +35,7 @@ import com.ITAcademy.M15_JocDeDaus.Security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/players")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -61,7 +61,6 @@ public class AuthController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-//		System.out.println(jwt);
 		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream()
@@ -122,11 +121,5 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	
-	@PostMapping("/logout")
-	public ResponseEntity<?> logoutUser() {
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		securityContext.setAuthentication(null);
-		return ResponseEntity.ok(new MessageResponse("logout successful"));
-	}
 	
 }
