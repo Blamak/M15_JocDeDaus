@@ -1,39 +1,32 @@
 package com.ITAcademy.M15_JocDeDaus.DTO;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 @Relation(collectionRelation = "players") // change array name in _embedded HAL return type
-//public class PlayerDTO extends RepresentationModel<PlayerDTO> {
 public class PlayerDTO {
 	
-	private long player_id;
+	private String id;
 	private String name;
-	private BigDecimal win_rate;
+	private BigDecimal winRate;
+	private Date date_registered = new Date();
 	
-
-	//  create a “current time” JDBC Timestamp
-	private Timestamp date_registered = new Timestamp(System.currentTimeMillis());
-	
-	// getters & setters:
-	
-	public BigDecimal getWin_rate() {
-		return win_rate;
+	public BigDecimal getWinRate() {
+		return winRate;
 	}
 	
-	public void setWin_rate(BigDecimal win_rate) {
-		this.win_rate = win_rate;
+	public void setWinRate(BigDecimal winRate) {
+		this.winRate = winRate;
 	}
 
-	public Long getPlayer_id() {
-		return player_id;
+	public String getId() {
+		return this.id;
 	}
 	
-	public void setPlayer_id(long player_id) {
-		this.player_id = player_id;
+	public void setId(String player_id) {
+		this.id = player_id;
 	}
 	
 	public String getName() {
@@ -44,12 +37,12 @@ public class PlayerDTO {
 		this.name = name;
 	}
 	
-	public Timestamp getDate_registered() {
+	public Date getDate_registered() {
 		return date_registered;
 	}
 	
-	public void setDate_registered(Timestamp date_registered) {
+	public void setDate_registered(Date date_registered) {
 		this.date_registered = date_registered;
 	}
-	
+
 }

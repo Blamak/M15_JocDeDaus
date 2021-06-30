@@ -1,4 +1,4 @@
-package com.ITAcademy.M15_JocDeDaus.Response;
+package com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils;
 
 public class Message {
 	
@@ -16,9 +16,6 @@ public class Message {
 		this.error = error;
 	}
 
-	
-	// getter & setters:
-	
 	public String getMessage() {
 		return message;
 	}

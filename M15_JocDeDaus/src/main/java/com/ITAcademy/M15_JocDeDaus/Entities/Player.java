@@ -1,50 +1,73 @@
 package com.ITAcademy.M15_JocDeDaus.Entities;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.springframework.hateoas.RepresentationModel;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
-import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-
-@Entity
-@Table(name="Player")
+@Document(collection = "player")
 public class Player {
-	
+
 	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long player_id;
-	@Column
+	private String id;
+	@Field
 	private String name;
-	@Column
-	private BigDecimal win_rate;	
-	@Column
-	private Timestamp date_registered;
+	@Field
+	String password;
+	@Field(targetType = FieldType.DECIMAL128)
+	private BigDecimal winRate;
+	@Field
+	private Date date_registered;
+	@DBRef
+	private Set<Role> roles = new HashSet<>();
+
+	public Player(String id, String name, String password, Date date_registered) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.date_registered = date_registered;
+	}
+
+	public Player() {
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
 	
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 	
-	// getters & setters:
-	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public BigDecimal getWinRate() {
-		return win_rate;
+		return winRate;
 	}
 
 	public void setWinRate(BigDecimal winRate) {
-		this.win_rate = winRate;
+		this.winRate = winRate;
 	}
 
-	public Long getPlayer_id() {
-		return player_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setPlayer_id(long player_id) {
-		this.player_id = player_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -55,11 +78,11 @@ public class Player {
 		this.name = name;
 	}
 
-	public Timestamp getDate_registered() {
+	public Date getDate_registered() {
 		return date_registered;
 	}
 
-	public void setDate_registered(Timestamp date_registered) {
+	public void setDate_registered(Date date_registered) {
 		this.date_registered = date_registered;
 	}
 

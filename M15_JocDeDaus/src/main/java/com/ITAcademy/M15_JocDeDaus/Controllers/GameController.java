@@ -1,17 +1,9 @@
 package com.ITAcademy.M15_JocDeDaus.Controllers;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
 import org.springframework.http.HttpStatus;
@@ -23,9 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.CustomMap_NamesRates;
+import com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils.Message;
 import com.ITAcademy.M15_JocDeDaus.DTO.GameDTO;
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
-import com.ITAcademy.M15_JocDeDaus.Response.Message;
 import com.ITAcademy.M15_JocDeDaus.Services.IGameService;
 import com.ITAcademy.M15_JocDeDaus.Services.IPlayerService;
 
@@ -41,13 +34,13 @@ public class GameController {
 	private IPlayerService playerService;
 
 	@PostMapping("/{player_id}/games") // CREATE A NEW GAME
-	public ResponseEntity<Message> playGame(@PathVariable long player_id) {
+	public ResponseEntity<Message> playGame(@PathVariable String player_id) {
 		try {
 			GameDTO returnedGame = gameService.saveGame(player_id);
 
 			return new ResponseEntity<Message>(new Message("Game created successfully!", returnedGame, ""),
 					HttpStatus.OK);
-			
+
 		} catch (NullPointerException noPlayerError) { // non existent player error
 			return new ResponseEntity<Message>(
 					new Message("There is no player with id = " + player_id + " in the database!", null,
@@ -60,143 +53,96 @@ public class GameController {
 	}
 
 	@GetMapping(value = "/{player_id}/games", produces = { "application/hal+json" }) // READ ALL GAMES OF A PLAYER
-	public CollectionModel<GameDTO> retrievePlayerGames(@PathVariable long player_id) {
-//		try {
-			String playerName = playerService.getPlayerByID(player_id).getName();
-			List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
-			
-//			Link link = linkTo(GameController.class).withSelfRel();
-			
-			CollectionModel<GameDTO> result = CollectionModel.of(playerGames);
-			
-			return result;
-			
-//			for (GameDTO game : playerGames) {
-//				Link selfLink = linkTo(game).
-//			}
-			
-			
-//			// player with or without games
-//			if (playerGames.isEmpty()) {
-//				return new ResponseEntity<Message>(
-//						new Message("Player " + playerName + " has not played any game yet.", null, ""), HttpStatus.OK);
-//			} else {
-//				return new ResponseEntity<Message>(
-//						new Message("List of games successfully retrieved of player: " + playerName, playerGames, ""),
-//						HttpStatus.OK);
-//			}
-//
-//		} catch (NullPointerException noPlayerError) { // non existent player error
-//			return new ResponseEntity<Message>(
-//					new Message("There is no player with id = " + player_id + " in the database!", null,
-//							noPlayerError.getMessage()),
-//					HttpStatus.BAD_REQUEST);
-//		} catch (Exception e) {
-//			return new ResponseEntity<Message>(new Message("Failed to create a new game!", null, e.getMessage()),
-//					HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
+	public CollectionModel<GameDTO> retrievePlayerGames(@PathVariable String player_id) {
+		List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
+		CollectionModel<GameDTO> result = CollectionModel.of(playerGames);
+
+		return result;
 	}
 
 	@DeleteMapping("/{player_id}/games") // DELETE ALL GAMES OF A PLAYER
-	public ResponseEntity<Message> deleteGames(@PathVariable long player_id) {
-			String playerName = playerService.getPlayerByID(player_id).getName();
-			List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
+	public ResponseEntity<Message> deleteGames(@PathVariable String player_id) {
+		String playerName = playerService.getPlayerByID(player_id).getName();
+		List<GameDTO> playerGames = gameService.gamesByPlayer(player_id);
 
-			// check if player has no games played yet
-			if (playerGames.isEmpty()) {
-				return new ResponseEntity<Message>(
-						new Message("Player " + playerName + " has not played any game yet.", null, ""), HttpStatus.OK);
-			}
-
-			gameService.deleteGamesByPlayer(player_id);
-
-			return new ResponseEntity<Message>(new Message("Deleted all games of player: " + playerName, "", ""),
-					HttpStatus.OK);
-	}
-	
-
-	// ======================= REQUESTS INVOLVING RANKING ======================== // 
-
-	/**
-	 * This method is called in the below GET requests: "/ranking", "/ranking/loser"
-	 * and "/ranking/winner"
-	 * 
-	 * Creates a map of players ordered by their winning rate.
-	 * 
-	 * Through a loop adds every player's name and his rate to a HashMap, which is
-	 * converted into a LinkedHashMap to sort the players by rate and remove the
-	 * players without games.
-	 * 
-	 * @return a LinkedHashMap with key-value pairs: player name - win rate,
-	 *         omitting the players with no games.
-	 */
-	private LinkedHashMap<String, BigDecimal> getPlayersByRank() {
-		// retrieve and store all players' list
-		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
-
-		// new map to store the key-value pair name-rate. Populated through a loop.
-		Map<String, BigDecimal> players_winRate = new HashMap<>();
-		for (PlayerDTO player : allPlayers) {
-			BigDecimal winRate = gameService.calculateWinRate(player.getPlayer_id());
-			String name = player.getName();
-			players_winRate.put(name, winRate);
+		// check if player has no games played yet
+		if (playerGames.isEmpty()) {
+			return new ResponseEntity<Message>(
+					new Message("Player " + playerName + " has not played any game yet.", null, ""), HttpStatus.OK);
 		}
 
-		// sort the map - descending order
-		LinkedHashMap<String, BigDecimal> playersWithGamesSorted = players_winRate.entrySet().stream()
-//				.filter(map -> !BigDecimal.ZERO.equals(map.getValue()))
-				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-				.collect(Collectors.toMap(
-						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		gameService.deleteGamesByPlayer(player_id);
 
-		return playersWithGamesSorted;
+		return new ResponseEntity<Message>(new Message("Deleted all games of player: " + playerName, "", ""),
+				HttpStatus.OK);
+	}
+
+//	// ======================= REQUESTS INVOLVING RANKING ======================== // 
+//
+//	/**
+//	 * This method is called in the below GET requests: "/ranking", "/ranking/loser"
+//	 * and "/ranking/winner"
+//	 * 
+//	 * Creates a list of maps of players and their win rates ordered by rate.
+//	 * 
+//	 * Through a loop adds every player's name and his rate to a 
+//	 */
+
+	private CustomMap_NamesRates getPlayersByRank() {
+		// retrieve and store all players' list
+		List<PlayerDTO> allPlayers = playerService.getAllPlayers();
+		CustomMap_NamesRates namesAndRates = new CustomMap_NamesRates();
+
+		for (PlayerDTO player : allPlayers) {
+			String name = player.getName();
+			BigDecimal winRate = gameService.calculateWinRate(player.getId());
+			namesAndRates.addNameAndRate(name, winRate);
+		}
+
+		return namesAndRates;
 	}
 
 	@GetMapping("/ranking") // LIST OF PLAYERS BY WINNING RATE, DESCENDING ORDER
 	public ResponseEntity<Message> getRanking() {
-		// get the map of sorted by rate players
-		LinkedHashMap<String, BigDecimal> playersSortedByRank = this.getPlayersByRank();
-
-		if (playersSortedByRank.isEmpty()) { // no games case
+		if (gameService.checkNoGames()) {
 			return new ResponseEntity<Message>(new Message("Nobody has played any game yet.", null, ""), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Message>(
-					new Message("Players ranking successfully retrieved!",
-							playersSortedByRank, ""),
-					HttpStatus.OK);
 		}
+		// get the map of sorted by rate players
+		CustomMap_NamesRates playersSortedByRank = this.getPlayersByRank();
 
+		return new ResponseEntity<Message>(
+				new Message("Players ranking successfully retrieved!", playersSortedByRank.showCustomMap(), ""),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/ranking/loser") // WORST PLAYER
 	public ResponseEntity<Message> getLoser() {
 		try {
+			if (gameService.checkNoGames()) {
+				return new ResponseEntity<Message>(new Message("Nobody has played any game yet.", null, ""),
+						HttpStatus.OK);
+			}
 			// get the map of sorted by rate players
-			LinkedHashMap<String, BigDecimal> playersSortedByRank = this.getPlayersByRank();
+			CustomMap_NamesRates playersSortedByRank = this.getPlayersByRank();
+			CustomMap_NamesRates worstPlayers = new CustomMap_NamesRates();
 
-			// get all keys from the LinkedHashMap and store into an array
-			String[] arrayKeys = playersSortedByRank.keySet().toArray(new String[playersSortedByRank.size()]);
+			// synchronized lists names and rates
+			List<BigDecimal> winRates = playersSortedByRank.getWinRates();
+			List<String> names = playersSortedByRank.getNames();
 
-			// retrieve the name of the worst player (or players) and his win rate
-			int index = arrayKeys.length - 1;
-			String result = "";
+			int lastIndex = winRates.size() - 1;
 			String loserName = "";
 			BigDecimal loserRate = null;
 			do {
-				loserName = arrayKeys[index];
-				loserRate = playersSortedByRank.get(loserName);
-				result += loserName + "-" + loserRate + "%" + "  ";
-				index -= 1;
-			} while (playersSortedByRank.values().toArray()[index].equals(loserRate));
-			
+				loserRate = winRates.get(lastIndex);
+				loserName = names.get(lastIndex);
+				worstPlayers.addNameAndRate(loserName, loserRate);
+				lastIndex--;
+			} while (loserRate.compareTo(winRates.get(lastIndex)) == 0);
 
-
-			return new ResponseEntity<Message>(new Message("Worst player successfully retrieved!", result, ""),
+			return new ResponseEntity<Message>(
+					new Message("Worst player successfully retrieved!", worstPlayers.showCustomMap(), ""),
 					HttpStatus.OK);
-
-		} catch (ArrayIndexOutOfBoundsException noGamesException) { // no games error handling
-			return new ResponseEntity<Message>(new Message("No games played yet!", null, noGamesException.getMessage()),
-					HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<Message>(new Message("Request failed!", null, e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);
@@ -207,31 +153,30 @@ public class GameController {
 	@GetMapping("/ranking/winner") // BEST PLAYER
 	public ResponseEntity<Message> getWinner() {
 		try {
+			if (gameService.checkNoGames()) {
+				return new ResponseEntity<Message>(new Message("Nobody has played any game yet.", null, ""),
+						HttpStatus.OK);
+			}
 			// get the map of sorted by rate players
-			LinkedHashMap<String, BigDecimal> playersSortedByRank = this.getPlayersByRank();
+			CustomMap_NamesRates playersSortedByRank = this.getPlayersByRank();
+			CustomMap_NamesRates bestPlayers = new CustomMap_NamesRates();
 
-			// get all keys from the LinkedHashMap and convert to an array
-			String[] arrayKeys = playersSortedByRank.keySet().toArray(new String[playersSortedByRank.size()]);
+			// synchronized lists names and rates
+			List<BigDecimal> winRates = playersSortedByRank.getWinRates();
+			List<String> names = playersSortedByRank.getNames();
 
-			// retrieve the name of the best player (or players) and his rate
-			int index = 0;
-			String result = "";
+			int firstIndex = 0;
 			String winnerName = "";
 			BigDecimal winnerRate = null;
 			do {
-				winnerName = arrayKeys[index];
-				winnerRate = playersSortedByRank.get(winnerName);
-				result += winnerName + "-" + winnerRate + "%" + "  ";
-				index += 1;
-			} while (playersSortedByRank.values().toArray()[index].equals(winnerRate));
+				winnerRate = winRates.get(firstIndex);
+				winnerName = names.get(firstIndex);
+				bestPlayers.addNameAndRate(winnerName, winnerRate);
+				firstIndex++;
+			} while (winnerRate.compareTo(winRates.get(firstIndex)) == 0);
 
-
-			return new ResponseEntity<Message>(new Message("Best player successfully retrieved!", result, ""),
-					HttpStatus.OK);
-			
-		} catch (ArrayIndexOutOfBoundsException noGamesException) { // no games error handling
-			return new ResponseEntity<Message>(new Message("No games played yet!", null, noGamesException.getMessage()),
-					HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Message>(
+					new Message("Best player successfully retrieved!", bestPlayers.showCustomMap(), ""), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Message>(new Message("Request failed!", null, e.getMessage()),
 					HttpStatus.INTERNAL_SERVER_ERROR);

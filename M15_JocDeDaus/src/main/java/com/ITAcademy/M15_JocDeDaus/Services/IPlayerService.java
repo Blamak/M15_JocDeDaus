@@ -9,10 +9,10 @@ public interface IPlayerService {
 	
 	public PlayerDTO savePlayer(PlayerDTO playerDTO);
 	public List<PlayerDTO> getAllPlayers();
-	public PlayerDTO replacePlayer(PlayerDTO playerDTO);
-	public PlayerDTO getPlayerByID(long player_id);
-	public boolean checkPlayerExists(long player_id);
-	
+	public void replacePlayer(PlayerDTO playerDTO);
+	public PlayerDTO getPlayerByID(String player_id);
+	public boolean checkNameDuplicated(String name);
+
 	public Player mapDTOtoEntity(PlayerDTO playerDTO);
 	public PlayerDTO mapEntitytoDTO(Player playerEntity);
 	

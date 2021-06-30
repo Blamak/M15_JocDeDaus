@@ -2,11 +2,7 @@ package com.ITAcademy.M15_JocDeDaus.Services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
 import com.ITAcademy.M15_JocDeDaus.DTO.PlayerDTO;
 import com.ITAcademy.M15_JocDeDaus.Entities.Player;
 import com.ITAcademy.M15_JocDeDaus.Exceptions.PlayerNotFoundException;
@@ -32,7 +28,7 @@ public class PlayerImplService implements IPlayerService {
 	@Override
 	public List<PlayerDTO> getAllPlayers() {
 		List<PlayerDTO> playersDTOList = new ArrayList<PlayerDTO>();
-		List<Player> playersList = playerRepository.findAll();
+		List<Player> playersList = (List<Player>) playerRepository.findAll();
 
 		if (playersList != null && playersList.size() > 0) {
 			// after conversion from every player entity, populate the list of DTO players
@@ -45,18 +41,15 @@ public class PlayerImplService implements IPlayerService {
 	}
 
 	@Override
-	public PlayerDTO replacePlayer(PlayerDTO playerDTO) {
+	public void replacePlayer(PlayerDTO playerDTO) {
 		Player player = this.mapDTOtoEntity(playerDTO);
-
 		playerRepository.save(player);
 
-		return this.mapEntitytoDTO(player);
 	}
 
 	@Override
-	public PlayerDTO getPlayerByID(long player_id) {
-		PlayerDTO playerReturned = playerRepository
-				.findById(player_id).map(player -> this.mapEntitytoDTO(player))
+	public PlayerDTO getPlayerByID(String player_id) {
+		PlayerDTO playerReturned = playerRepository.findById(player_id).map(player -> this.mapEntitytoDTO(player))
 				.orElseThrow(() -> new PlayerNotFoundException("not found Player with id " + player_id));
 
 		if (playerReturned.getName() == null) {
@@ -64,16 +57,16 @@ public class PlayerImplService implements IPlayerService {
 		}
 
 		return playerReturned;
-
 	}
 
 	@Override
-	public boolean checkPlayerExists(long player_id) {
-		if (playerRepository.existsById(player_id)) {
+	public boolean checkNameDuplicated(String name) {
+
+		if (name.equals("ANÒNIM") || !playerRepository.existsByName(name)) {
+			return false;
+		} else {
 			return true;
 		}
-
-		return false;
 	}
 
 	// DTO-Entity conversion
@@ -81,12 +74,12 @@ public class PlayerImplService implements IPlayerService {
 	public Player mapDTOtoEntity(PlayerDTO playerDTO) {
 		Player player = new Player();
 
-		if (playerDTO.getPlayer_id() != null) {
-			player.setPlayer_id(playerDTO.getPlayer_id());
+		if (playerDTO.getId() != null) {
+			player.setId(playerDTO.getId());
 		}
 
 		player.setName(playerDTO.getName());
-		player.setWinRate(playerDTO.getWin_rate());
+		player.setWinRate(playerDTO.getWinRate());
 		player.setDate_registered(playerDTO.getDate_registered());
 
 		return player;
@@ -97,9 +90,9 @@ public class PlayerImplService implements IPlayerService {
 	public PlayerDTO mapEntitytoDTO(Player player) {
 		PlayerDTO playerDTO = new PlayerDTO();
 
-		playerDTO.setPlayer_id(player.getPlayer_id());
+		playerDTO.setId(player.getId());
 		playerDTO.setName(player.getName());
-		playerDTO.setWin_rate(player.getWinRate());
+		playerDTO.setWinRate(player.getWinRate());
 		playerDTO.setDate_registered(player.getDate_registered());
 
 		return playerDTO;

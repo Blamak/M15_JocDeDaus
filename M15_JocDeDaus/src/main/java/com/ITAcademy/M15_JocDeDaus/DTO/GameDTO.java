@@ -1,27 +1,22 @@
 package com.ITAcademy.M15_JocDeDaus.DTO;
 
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 @Relation(collectionRelation = "games") // change array name in _embedded HAL return type
-public class GameDTO extends RepresentationModel<GameDTO> {
+public class GameDTO {
 
-
-	private long game_id;
+	private String id;
 	private int dice1;
 	private int dice2;
 	private String result;
-	private PlayerDTO player;
-
+	private String playerId;
 	
-	// getters & setters:
-
-	public Long getGame_id() {
-		return game_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setGames_id(long game_id) {
-		this.game_id = game_id;
+	public void setId(String game_id) {
+		this.id = game_id;
 	}
 
 	public Integer getDice1() {
@@ -48,12 +43,12 @@ public class GameDTO extends RepresentationModel<GameDTO> {
 		this.result = result;
 	}
 
-	public PlayerDTO getPlayer() {
-		return player;
+	public String getPlayerId() {
+		return playerId;
 	}
 
-	public void setPlayer(PlayerDTO player) {
-		this.player = player;
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
 	}
 
 }
