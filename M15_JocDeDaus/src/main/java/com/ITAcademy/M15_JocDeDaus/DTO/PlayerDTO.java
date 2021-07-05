@@ -9,14 +9,14 @@ public class PlayerDTO {
 
 	private long id;
 	private String name;
-	private BigDecimal win_rate = new BigDecimal("0.0");
+	private double win_rate = 0;
 	private Timestamp date_registered = new Timestamp(System.currentTimeMillis());
 
-	public BigDecimal getWin_rate() {
+	public double getWin_rate() {
 		return win_rate;
 	}
 
-	public void setWin_rate(BigDecimal win_rate) {
+	public void setWin_rate(double win_rate) {
 		this.win_rate = win_rate;
 	}
 

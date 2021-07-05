@@ -20,7 +20,7 @@ public class Player {
 	@Column
 	private String name;
 	@Column
-	private BigDecimal win_rate;	
+	private double win_rate;	
 	@Column
 	private Timestamp date_registered;
 	
@@ -28,7 +28,7 @@ public class Player {
 		
 	}
 	
-	public Player(long id, String name, BigDecimal win_rate, Timestamp date_registered) {
+	public Player(long id, String name, double win_rate, Timestamp date_registered) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,11 +36,11 @@ public class Player {
 		this.date_registered = date_registered;
 	}
 
-	public BigDecimal getWinRate() {
+	public double getWinRate() {
 		return win_rate;
 	}
 
-	public void setWinRate(BigDecimal winRate) {
+	public void setWinRate(double winRate) {
 		this.win_rate = winRate;
 	}
 
