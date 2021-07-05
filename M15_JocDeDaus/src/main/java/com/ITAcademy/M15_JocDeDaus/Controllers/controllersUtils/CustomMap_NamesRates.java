@@ -1,6 +1,5 @@
 package com.ITAcademy.M15_JocDeDaus.Controllers.controllersUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public class CustomMap_NamesRates {
 
 	private List<String> names = new ArrayList<String>();
-	private List<BigDecimal> winRates = new ArrayList<BigDecimal>();
+	private List<Double> winRates = new ArrayList<Double>();
 	private int players = 0;
 	
 	public List<String> getNames() {
@@ -19,15 +18,15 @@ public class CustomMap_NamesRates {
 		this.names = names;
 	}
 
-	public List<BigDecimal> getWinRates() {
+	public List<Double> getWinRates() {
 		return winRates;
 	}
 
-	public void setWinRates(List<BigDecimal> winRates) {
+	public void setWinRates(List<Double> winRates) {
 		this.winRates = winRates;
 	}
 
-	public CustomMap_NamesRates(List<String> names, List<BigDecimal> winRates, int players) {
+	public CustomMap_NamesRates(List<String> names, List<Double> winRates, int players) {
 		super();
 		this.names = names;
 		this.winRates = winRates;
@@ -38,7 +37,7 @@ public class CustomMap_NamesRates {
 
 	}
 
-	public void addNameAndRate(String name, BigDecimal winRate) {
+	public void addNameAndRate(String name, Double winRate) {
 		this.names.add(name);
 		this.winRates.add(winRate);
 		this.players++;
@@ -50,13 +49,13 @@ public class CustomMap_NamesRates {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<HashMap<String, BigDecimal>> showCustomMap() {
+	public List<HashMap<String, Double>> showCustomMap() {
 		int index = 0;
-		HashMap<String, BigDecimal> nameRatePair = new HashMap<>();
-		List<HashMap<String, BigDecimal>> playersList = new ArrayList<>();
+		HashMap<String, Double> nameRatePair = new HashMap<>();
+		List<HashMap<String, Double>> playersList = new ArrayList<>();
 		for (String name : this.names) {
 			nameRatePair.put(name, this.winRates.get(index));
-			playersList.add((HashMap<String, BigDecimal>) nameRatePair.clone());
+			playersList.add((HashMap<String, Double>) nameRatePair.clone());
 			nameRatePair.clear();
 			index++;
 		}

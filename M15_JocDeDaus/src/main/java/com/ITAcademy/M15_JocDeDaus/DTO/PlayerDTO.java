@@ -10,14 +10,14 @@ public class PlayerDTO {
 	
 	private String id;
 	private String name;
-	private BigDecimal winRate;
+	private double winRate;
 	private Date date_registered = new Date();
 	
-	public BigDecimal getWinRate() {
+	public double getWinRate() {
 		return winRate;
 	}
 	
-	public void setWinRate(BigDecimal winRate) {
+	public void setWinRate(double winRate) {
 		this.winRate = winRate;
 	}
 

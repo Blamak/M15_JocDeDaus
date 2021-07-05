@@ -95,7 +95,7 @@ public class GameController {
 
 		for (PlayerDTO player : allPlayers) {
 			String name = player.getName();
-			BigDecimal winRate = gameService.calculateWinRate(player.getId());
+			double winRate = gameService.calculateWinRate(player.getId());
 			namesAndRates.addNameAndRate(name, winRate);
 		}
 
@@ -127,18 +127,18 @@ public class GameController {
 			CustomMap_NamesRates worstPlayers = new CustomMap_NamesRates();
 
 			// synchronized lists names and rates
-			List<BigDecimal> winRates = playersSortedByRank.getWinRates();
+			List<Double> winRates = playersSortedByRank.getWinRates();
 			List<String> names = playersSortedByRank.getNames();
 
 			int lastIndex = winRates.size() - 1;
 			String loserName = "";
-			BigDecimal loserRate = null;
+			double loserRate;
 			do {
 				loserRate = winRates.get(lastIndex);
 				loserName = names.get(lastIndex);
 				worstPlayers.addNameAndRate(loserName, loserRate);
 				lastIndex--;
-			} while (loserRate.compareTo(winRates.get(lastIndex)) == 0);
+			} while (loserRate == winRates.get(lastIndex));
 
 			return new ResponseEntity<Message>(
 					new Message("Worst player successfully retrieved!", worstPlayers.showCustomMap(), ""),
@@ -162,18 +162,18 @@ public class GameController {
 			CustomMap_NamesRates bestPlayers = new CustomMap_NamesRates();
 
 			// synchronized lists names and rates
-			List<BigDecimal> winRates = playersSortedByRank.getWinRates();
+			List<Double> winRates = playersSortedByRank.getWinRates();
 			List<String> names = playersSortedByRank.getNames();
 
 			int firstIndex = 0;
 			String winnerName = "";
-			BigDecimal winnerRate = null;
+			double winnerRate;
 			do {
 				winnerRate = winRates.get(firstIndex);
 				winnerName = names.get(firstIndex);
 				bestPlayers.addNameAndRate(winnerName, winnerRate);
 				firstIndex++;
-			} while (winnerRate.compareTo(winRates.get(firstIndex)) == 0);
+			} while (winnerRate == winRates.get(firstIndex));
 
 			return new ResponseEntity<Message>(
 					new Message("Best player successfully retrieved!", bestPlayers.showCustomMap(), ""), HttpStatus.OK);
