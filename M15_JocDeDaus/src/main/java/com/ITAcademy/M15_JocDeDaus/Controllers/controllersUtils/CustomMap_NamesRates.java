@@ -12,7 +12,7 @@ import java.util.List;
 public class CustomMap_NamesRates {
 
 	private List<String> names = new ArrayList<String>();
-	private List<BigDecimal> winRates = new ArrayList<BigDecimal>();
+	private List<Double> winRates = new ArrayList<Double>();
 	private int numberOfPlayers = 0;
 	
 	public List<String> getNames() {
@@ -23,15 +23,15 @@ public class CustomMap_NamesRates {
 		this.names = names;
 	}
 
-	public List<BigDecimal> getWinRates() {
+	public List<Double> getWinRates() {
 		return winRates;
 	}
 
-	public void setWinRates(List<BigDecimal> winRates) {
+	public void setWinRates(List<Double> winRates) {
 		this.winRates = winRates;
 	}
 
-	public CustomMap_NamesRates(List<String> names, List<BigDecimal> winRates, int numberOfPlayers) {
+	public CustomMap_NamesRates(List<String> names, List<Double> winRates, int numberOfPlayers) {
 		super();
 		this.names = names;
 		this.winRates = winRates;
@@ -42,7 +42,7 @@ public class CustomMap_NamesRates {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void addNameAndRate(String name, BigDecimal winRate) {
+	public void addNameAndRate(String name, double winRate) {
 		this.names.add(name);
 		this.winRates.add(winRate);
 		this.numberOfPlayers++;
@@ -54,13 +54,13 @@ public class CustomMap_NamesRates {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<HashMap<String, BigDecimal>> showCustomMap() {
+	public List<HashMap<String, Double>> showCustomMap() {
 		int index = 0;
-		HashMap<String, BigDecimal> nameRatePair = new HashMap<String, BigDecimal>();
-		List<HashMap<String, BigDecimal>> playersList = new ArrayList<HashMap<String, BigDecimal>>();
+		HashMap<String, Double> nameRatePair = new HashMap<String, Double>();
+		List<HashMap<String, Double>> playersList = new ArrayList<HashMap<String, Double>>();
 		for (String name : this.names) {
 			nameRatePair.put(name, this.winRates.get(index));
-			playersList.add((HashMap<String, BigDecimal>) nameRatePair.clone());
+			playersList.add((HashMap<String, Double>) nameRatePair.clone());
 			nameRatePair.clear();
 			index++;
 		}

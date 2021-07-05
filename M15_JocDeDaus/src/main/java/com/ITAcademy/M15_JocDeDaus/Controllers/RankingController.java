@@ -87,7 +87,7 @@ public class RankingController {
 
 		for (PlayerDTO player : allPlayers) {
 			String name = player.getName();
-			BigDecimal winRate = player.getWinRate();
+			double winRate = player.getWinRate();
 			namesAndRates.addNameAndRate(name, winRate);
 		}
 		return namesAndRates;
@@ -99,7 +99,7 @@ public class RankingController {
 		CustomMap_NamesRates bestOrWorstPlayers = new CustomMap_NamesRates();
 
 		// synchronized lists of names and rates
-		List<BigDecimal> winRates = playersSortedByRank.getWinRates();
+		List<Double> winRates = playersSortedByRank.getWinRates();
 		List<String> names = playersSortedByRank.getNames();
 
 		int index;
@@ -113,13 +113,13 @@ public class RankingController {
 		}
 
 		String playerName = "";
-		BigDecimal playerRate = null;
+		double playerRate;
 		do {
 			playerRate = winRates.get(index);
 			playerName = names.get(index);
 			bestOrWorstPlayers.addNameAndRate(playerName, playerRate);
 			index += factor;
-		} while (playerRate.compareTo(winRates.get(index)) == 0);
+		} while (playerRate == winRates.get(index));
 
 		return bestOrWorstPlayers;
 	}

@@ -41,7 +41,7 @@ public class GameImplService implements IGameService {
 		
 		GameDTO newGameDTO = new GameDTO();
 		PlayerDTO player = playerService.getPlayerByID(player_id);
-		BigDecimal playerWinRate;
+		double playerWinRate;
 		
 		// set game attributes, except id
 		newGameDTO.setDice1(dice1);
@@ -78,7 +78,7 @@ public class GameImplService implements IGameService {
 	@Override
 	public void deleteGamesByPlayer(String player_id) {
 		PlayerDTO playerDTO = playerService.getPlayerByID(player_id);
-		playerDTO.setWinRate(new BigDecimal("0.0"));
+		playerDTO.setWinRate(0.0);
 		playerService.replacePlayer(playerDTO);
 		List<Game> playerGames = gameRepository.findByPlayerId(player_id);
 		for (Game game : playerGames) {
@@ -98,10 +98,10 @@ public class GameImplService implements IGameService {
 	 * @return the rate of games won by the player
 	 */
 	@Override
-	public BigDecimal calculateWinRate(String player_id) {
-		Double wonGames = 0.0;
-		Double totalGames = 0.0;
-		Double wonPercent = 0.0;
+	public double calculateWinRate(String player_id) {
+		double wonGames = 0;
+		double totalGames = 0;
+		double wonPercent = 0;
 		List<GameDTO> playerGames = this.gamesByPlayer(player_id);
 		
 		if (playerGames.size() != 0) {
@@ -112,13 +112,12 @@ public class GameImplService implements IGameService {
 					wonGames += 1;
 				}
 			}
-			wonPercent = (wonGames / totalGames) * 100;
-			// round to 2 decimal points
-			BigDecimal rounded_wonPercent = new BigDecimal(wonPercent).setScale(2, RoundingMode.HALF_UP);
-			return rounded_wonPercent;
+			// calculate rate and round to 2 decimal points
+			wonPercent = Math.round((wonGames / totalGames * 100) * 100d)  / 100d;
+			return wonPercent;
 		} else {
-			// return Zero if the player has no games
-			return BigDecimal.ZERO;
+			// return zero if the player has no games
+			return 0;
 		}
 	}
 

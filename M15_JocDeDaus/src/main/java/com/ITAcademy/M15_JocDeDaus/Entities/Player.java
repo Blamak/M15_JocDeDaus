@@ -15,19 +15,19 @@ public class Player {
 	private String id;
 	@Field
 	private String name;
-	@Field(targetType = FieldType.DECIMAL128)
-	private BigDecimal winRate;
+	@Field
+	private double winRate;
 	@Field
 	private Date date_registered;
 	
 	
 	// getters & setters:
 	
-	public BigDecimal getWinRate() {
+	public double getWinRate() {
 		return winRate;
 	}
 
-	public void setWinRate(BigDecimal winRate) {
+	public void setWinRate(double winRate) {
 		this.winRate = winRate;
 	}
 
