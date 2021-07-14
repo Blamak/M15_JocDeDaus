@@ -39,7 +39,7 @@ public class GameController {
 			GameDTO returnedGame = gameService.saveGame(player_id);
 
 			return new ResponseEntity<Message>(new Message("Game created successfully!", returnedGame, ""),
-					HttpStatus.OK);
+					HttpStatus.CREATED);
 
 		} catch (NullPointerException noPlayerError) { // non existent player error
 			return new ResponseEntity<Message>(
@@ -98,7 +98,6 @@ public class GameController {
 			double winRate = gameService.calculateWinRate(player.getId());
 			namesAndRates.addNameAndRate(name, winRate);
 		}
-
 		return namesAndRates;
 	}
 
