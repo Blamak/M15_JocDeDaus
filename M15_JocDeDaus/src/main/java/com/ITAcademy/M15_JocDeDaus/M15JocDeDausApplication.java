@@ -16,13 +16,13 @@ public class M15JocDeDausApplication {
 		SpringApplication.run(M15JocDeDausApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner demo(IRoleRepository roleRepository) {
-		return (args) -> {
-			// save roles
-			roleRepository.save(new Role(null, ERole.ROLE_ADMIN));
-			roleRepository.save(new Role(null, ERole.ROLE_MODERATOR));
-			roleRepository.save(new Role(null, ERole.ROLE_USER));
-		};
-	}
+//	@Bean
+//	public CommandLineRunner demo(IRoleRepository roleRepository) {
+//		return (args) -> {
+//			// save roles
+//			roleRepository.save(new Role(null, ERole.ROLE_ADMIN));
+//			roleRepository.save(new Role(null, ERole.ROLE_MODERATOR));
+//			roleRepository.save(new Role(null, ERole.ROLE_USER));
+//		};
+//	}
 }
