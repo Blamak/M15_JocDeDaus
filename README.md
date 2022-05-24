@@ -2,7 +2,7 @@
 API creada con el framework Spring que forma parte del itinerario para completar el bootcamp online de la IT Academy - Barcelona Activa.
 Los requerimientos para superar este módulo eran los siguientes:
 - Se juega con dos dados. Si el resultado es 7, la tirada es ganadora, sino cuenta como perderdora.
-- Para poder jugar un usuario debe registrarse.Al crearse se le asigna un identificador numérico único y una fecha de registro. Si el usuario lo desea, puede registrarse sin nombre y se llamará "ANÒNIM". Puede haber varios jugadores anónimos, pero ningún nombre puede ser repetido.
+- Para poder jugar un usuario debe registrarse. Al crearse se le asigna un identificador numérico único y una fecha de registro. Si el usuario lo desea, puede registrarse sin nombre y se llamará "ANÒNIM". Puede haber varios jugadores anónimos, pero ningún nombre puede ser repetido.
 - Cada jugador puede ver el listado de todas las tiradas que ha hecho y su porcentaje de éxito, por cada tirada puede ver el valor de cada dado i se es ganadora o perdedora.
 - No se puede eliminar una tirada en concreto, pero si se pueden eliminar todas las tiradas de un jugador.
 - El software debe permitir listar todos los jugadores y el porcentaje de éxito de cada uno y la media de todos los jugadores.
@@ -16,7 +16,7 @@ Los requerimientos para superar este módulo eran los siguientes:
   - GET /players/{id}/games: retorna el listado de jugadas de un jugador.
   - GET /players/ranking: retorna el ranking medio de todos los jugadors del sistema 
   - GET /players/ranking/loser: retorna el jugador con peor ranking 
-  - GET /players/ranking/winner: retorna el jugador con mejor ranking ç
+  - GET /players/ranking/winner: retorna el jugador con mejor ranking
   
 Para superar el ejercicio se deben superar las 3 siguientes fases:
 - FASE 1
