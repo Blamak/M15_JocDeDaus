@@ -13,7 +13,7 @@ Los requerimientos para superar este módulo eran los siguientes:
   - POST /players/{id}/games/ : un jugador específico realiza una tirada de dados.  
   - DELETE /players/{id}/games: elimina las tiradas del jugador 
   - GET /players/: retorna el listado de todos los jugadores del sistema con su porcentaje de éxito
-  - GET /players/{id}/games: retorna el listado de jugadas de un jugador.
+  - GET /players/{id}/games: retorna el listado de jugadas de un jugador
   - GET /players/ranking: retorna una lista con los jugadores ordenados por ranking
   - GET /players/ranking/loser: retorna el jugador con peor ranking 
   - GET /players/ranking/winner: retorna el jugador con mejor ranking
